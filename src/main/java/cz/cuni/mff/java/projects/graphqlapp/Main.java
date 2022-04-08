@@ -6,16 +6,26 @@ import graphql.GraphQL;
 public class Main {
 
     public static void main(String[] args) {
-        GraphQLProvider provider = new GraphQLProvider();
-        GraphQL graphQL = provider.getGraphQL();
+        GraphQL graphQL = new GraphQLProvider().getGraphQL();
         String query = """
                 {
-                bookById(id: "book-2") {
-                name
-                pageCount
+                bookOne: bookById(id: "book-1") {
+                    name
+                    pageCount
+                    author {
+                        id
+                        firstName
+                        lastName
+                    }
                 }
                 }""";
         ExecutionResult result = graphQL.execute(query);
-        System.out.println(result.getData().toString());
+        if (!result.getErrors().isEmpty()) {
+            System.out.println("Error occurred during query.");
+            System.out.println(result.getErrors());
+        }
+        if (result.getData() != null) {
+            System.out.println(result.getData().toString());
+        }
     }
 }
