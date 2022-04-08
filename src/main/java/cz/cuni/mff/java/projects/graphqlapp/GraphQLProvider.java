@@ -18,7 +18,7 @@ public class GraphQLProvider {
 
     public GraphQLProvider() {
         this.graphQLDataFetchers = new GraphQLDataFetchers();
-        GraphQLSchema schema = buildSchema(getResourceAsString("schema.graphqls"));
+        GraphQLSchema schema = buildSchema(ResourceGetter.getResourceAsString("schema.graphqls"));
         this.graphQL = GraphQL.newGraphQL(schema).build();
     }
 
@@ -40,29 +40,5 @@ public class GraphQLProvider {
                 .type(newTypeWiring("Book")
                         .dataFetcher("author", graphQLDataFetchers.getAuthorDataFetcher()))
                 .build();
-    }
-
-    /**
-     * Reads file included in resources folder.
-     * @param fileName name of file
-     * @return String content of the file, empty if file not found
-     */
-    private String getResourceAsString(String fileName) {
-        ClassLoader classLoader = getClass().getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream(fileName);
-        if (inputStream == null) {
-            return "";
-        }
-        StringBuilder sb = new StringBuilder();
-        while(true) {
-            try {
-                int next = inputStream.read();
-                if(next == -1)
-                    return sb.toString();
-                sb.append((char)next);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 }
