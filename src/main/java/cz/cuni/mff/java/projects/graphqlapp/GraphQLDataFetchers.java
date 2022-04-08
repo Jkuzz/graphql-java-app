@@ -47,15 +47,23 @@ public class GraphQLDataFetchers {
         };
     }
 
-//    public DataFetcher<List<Map<String, String>>> getBooksByAuthorDataFetcher() {
-//        return dataFetchingEnvironment -> {
-//            String bookId = dataFetchingEnvironment.getArgument("id");
-//            return books
-//                    .stream()
-//                    .filter(book -> book.get("author"))
-//                    .toList();
-//        };
-//    }
+    public DataFetcher<List<Map<String, String>>> getBooksByAuthorDataFetcher() {
+        return dataFetchingEnvironment -> {
+            String authorID = dataFetchingEnvironment.getArgument("authorId");
+            System.out.println(authorID);
+            return books
+                    .stream()
+                    .filter(book -> {
+                        System.out.println(book);
+                        return book.get("authorId").equals(authorID);
+                    })
+                    .toList();
+        };
+    }
+
+    public DataFetcher<List<Map<String, String>>> getBooksDataFetcher() {
+        return dataFetchingEnvironment -> books;
+    }
 
     public DataFetcher<Map<String, String>> getAuthorDataFetcher() {
         return dataFetchingEnvironment -> {

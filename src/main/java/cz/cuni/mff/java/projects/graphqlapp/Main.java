@@ -19,6 +19,17 @@ public class Main {
                     }
                 }
                 }""";
+        query = """
+                {
+                booksByAuthor(authorId: "author-1") {
+                    name
+                    pageCount
+                    author {
+                        firstName
+                        lastName
+                    }
+                }
+                }""";
         ExecutionResult result = graphQL.execute(query);
         if (!result.getErrors().isEmpty()) {
             System.out.println("Error occurred during query.");
