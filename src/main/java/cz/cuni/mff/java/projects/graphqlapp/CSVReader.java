@@ -4,13 +4,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Reader;
+import java.util.*;
 
 public class CSVReader {
     private final List<List<String>> lines = new ArrayList<>();
-    private final InputStreamReader inputReader;
+    private final Reader inputReader;
     private boolean lineEnded = false;
     private boolean streamEnded = false;
 
@@ -19,9 +18,7 @@ public class CSVReader {
         return lines.get(0);
     }
 
-//    public List<List<String>> searchLines()
-
-    public CSVReader(InputStreamReader inReader) throws IOException {
+    public CSVReader(Reader inReader) throws IOException {
         inputReader = inReader;
         while(!streamEnded) {
             List<String> nextLine = getNextLine();
@@ -39,7 +36,6 @@ public class CSVReader {
             nextLine.add(nextField.trim());
             nextField = getNextField();
         }
-//        System.out.println(nextLine);
         return nextLine;
     }
 
@@ -65,7 +61,17 @@ public class CSVReader {
                     } else if (!inQuotes) {
                         inQuotes = true;
                     } else {
-                        return nextField.toString();
+                        next = inputReader.read();
+                        if(next == ',') {
+                            return nextField.toString();
+                        } else if(next == '\n' || next == '\r') {
+                            lineEnded = true;
+                            return nextField.toString();
+                        } else if(next == -1) {
+                            lineEnded = streamEnded = true;
+                            return nextField.toString();
+                        }
+                        nextField.append('"');
                     }
                 }
                 default -> nextField.append((char) next);
@@ -80,7 +86,21 @@ public class CSVReader {
     }
 
     public List<List<String>> getLines() {
-        return lines;
+        return lines.subList(1, lines.size());
+    }
+
+    public List<Map<String, String>> getLinesAsMaps() {
+        List<Map<String, String>> lineMaps = new ArrayList<>();
+        List<String> header = getHeader();
+
+        for(List<String> line: getLines()) {
+            Map<String, String> outMap = new TreeMap<>();
+            for(int i=0; i<line.size(); i+=1) {
+                outMap.put(header.get(i), line.get(i));
+            }
+            lineMaps.add(outMap);
+        }
+        return lineMaps;
     }
 
     public List<String> getLine(int index) {

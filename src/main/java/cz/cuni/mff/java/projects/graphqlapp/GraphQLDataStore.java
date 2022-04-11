@@ -2,6 +2,8 @@ package cz.cuni.mff.java.projects.graphqlapp;
 
 import graphql.com.google.common.collect.ImmutableMap;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -42,4 +44,23 @@ public class GraphQLDataStore {
                     "firstName", "Anne",
                     "lastName", "Rice")
     );
+
+    private List<Map<String, String>> characters;
+
+    public GraphQLDataStore() {
+        CSVReader csv;
+        try {
+            String resourceName = Main.class.getClassLoader().getResource("year.csv").getPath();
+            csv = new CSVReader(new FileReader(resourceName));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        characters = csv.getLinesAsMaps();
+
+    }
+
+    public List<Map<String, String>> getCharacters() {
+        return characters;
+    }
 }
