@@ -1,45 +1,18 @@
 package cz.cuni.mff.java.projects.graphqlapp;
 
-import graphql.com.google.common.collect.ImmutableMap;
 import graphql.schema.DataFetcher;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 public class GraphQLDataFetchers {
 
-    private static final List<Map<String, String>> books = Arrays.asList(
-            ImmutableMap.of("id", "book-1",
-                    "name", "Harry Potter and the Philosopher's Stone",
-                    "pageCount", "223",
-                    "authorId", "author-1"),
-            ImmutableMap.of("id", "book-2",
-                    "name", "Moby Dick",
-                    "pageCount", "635",
-                    "authorId", "author-2"),
-            ImmutableMap.of("id", "book-3",
-                    "name", "Interview with the vampire",
-                    "pageCount", "371",
-                    "authorId", "author-3")
-    );
-
-    private static final List<Map<String, String>> authors = Arrays.asList(
-            ImmutableMap.of("id", "author-1",
-                    "firstName", "Joanne",
-                    "lastName", "Rowling"),
-            ImmutableMap.of("id", "author-2",
-                    "firstName", "Herman",
-                    "lastName", "Melville"),
-            ImmutableMap.of("id", "author-3",
-                    "firstName", "Anne",
-                    "lastName", "Rice")
-    );
+    private final GraphQLDataStore dataStore = new GraphQLDataStore();
 
     public DataFetcher<Map<String, String>> getBookByIdDataFetcher() {
         return dataFetchingEnvironment -> {
             String bookId = dataFetchingEnvironment.getArgument("id");
-            return books
+            return dataStore.getBooks()
                     .stream()
                     .filter(book -> book.get("id").equals(bookId))
                     .findFirst()
@@ -50,26 +23,22 @@ public class GraphQLDataFetchers {
     public DataFetcher<List<Map<String, String>>> getBooksByAuthorDataFetcher() {
         return dataFetchingEnvironment -> {
             String authorID = dataFetchingEnvironment.getArgument("authorId");
-            System.out.println(authorID);
-            return books
+            return dataStore.getBooks()
                     .stream()
-                    .filter(book -> {
-                        System.out.println(book);
-                        return book.get("authorId").equals(authorID);
-                    })
+                    .filter(book -> book.get("authorId").equals(authorID))
                     .toList();
         };
     }
 
     public DataFetcher<List<Map<String, String>>> getBooksDataFetcher() {
-        return dataFetchingEnvironment -> books;
+        return dataFetchingEnvironment -> dataStore.getBooks();
     }
 
     public DataFetcher<Map<String, String>> getAuthorDataFetcher() {
         return dataFetchingEnvironment -> {
             Map<String,String> book = dataFetchingEnvironment.getSource();
             String authorId = book.get("authorId");
-            return authors
+            return dataStore.getAuthors()
                     .stream()
                     .filter(author -> author.get("id").equals(authorId))
                     .findFirst()

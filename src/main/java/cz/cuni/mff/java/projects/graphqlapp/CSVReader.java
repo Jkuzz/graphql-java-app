@@ -39,7 +39,7 @@ public class CSVReader {
             nextLine.add(nextField.trim());
             nextField = getNextField();
         }
-        System.out.println(nextLine);
+//        System.out.println(nextLine);
         return nextLine;
     }
 
