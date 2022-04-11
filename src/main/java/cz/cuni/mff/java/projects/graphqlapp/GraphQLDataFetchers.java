@@ -45,4 +45,22 @@ public class GraphQLDataFetchers {
                     .orElse(null);
         };
     }
+
+    public DataFetcher<Map<String, String>> getCharacterByIdDataFetcher() {
+        return dataFetchingEnvironment -> {
+            String id = dataFetchingEnvironment.getArgument("characterId");
+            return dataStore.getCharacters().get(Integer.parseInt(id));
+        };
+    }
+
+    public DataFetcher<Map<String, String>> getCharacterByNameDataFetcher() {
+        return dataFetchingEnvironment -> {
+            String name = dataFetchingEnvironment.getArgument("name");
+            return dataStore.getCharacters()
+                    .stream()
+                    .filter(character -> character.get("name").equals(name))
+                    .findFirst()
+                    .orElse(null);
+        };
+    }
 }

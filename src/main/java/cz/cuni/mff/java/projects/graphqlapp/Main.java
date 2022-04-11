@@ -30,6 +30,15 @@ public class Main {
                     }
                 }
                 }""";
+        query = """
+                {
+                characterByName(name: "Legolas") {
+                    id
+                    name
+                    race
+                    realm
+                }
+                }""";
         ExecutionResult result = graphQL.execute(query);
         if (!result.getErrors().isEmpty()) {
             System.out.println("Error occurred during query.");
