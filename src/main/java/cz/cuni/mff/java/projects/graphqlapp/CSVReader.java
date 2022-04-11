@@ -24,7 +24,10 @@ public class CSVReader {
     public CSVReader(InputStreamReader inReader) throws IOException {
         inputReader = inReader;
         while(!streamEnded) {
-            lines.add(getNextLine());
+            List<String> nextLine = getNextLine();
+            if (nextLine.size() != 0) {
+                lines.add(nextLine);
+            }
         }
     }
 
@@ -36,6 +39,7 @@ public class CSVReader {
             nextLine.add(nextField.trim());
             nextField = getNextField();
         }
+        System.out.println(nextLine);
         return nextLine;
     }
 
@@ -61,10 +65,6 @@ public class CSVReader {
                     } else if (!inQuotes) {
                         inQuotes = true;
                     } else {
-                        next = inputReader.read();
-                        if(next != ',') {
-                            throw new IllegalArgumentException("Incorrect CSV file format!");
-                        }
                         return nextField.toString();
                     }
                 }

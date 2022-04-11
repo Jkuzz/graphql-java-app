@@ -46,6 +46,8 @@ public class Main {
             String resourceName = Main.class.getClassLoader().getResource("year.csv").getPath();
             System.out.println(resourceName);
             CSVReader reader = new CSVReader(new FileReader(resourceName));
+            System.out.println(reader.getHeader());
+            System.out.println(reader.getLine(2));
         } catch (IOException e) {
             e.printStackTrace();
         }
