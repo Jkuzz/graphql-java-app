@@ -1,5 +1,8 @@
 package cz.cuni.mff.java.projects.graphqlapp;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -11,15 +14,21 @@ public class CSVReader {
     private boolean lineEnded = false;
     private boolean streamEnded = false;
 
+    public List<String> getHeader() {
+        assert lines.size() > 0;
+        return lines.get(0);
+    }
+
+//    public List<List<String>> searchLines()
+
     public CSVReader(InputStreamReader inReader) throws IOException {
         inputReader = inReader;
         while(!streamEnded) {
             lines.add(getNextLine());
         }
-
     }
 
-    private List<String> getNextLine() throws IOException {
+    private @NotNull List<String> getNextLine() throws IOException {
         lineEnded = false;
         ArrayList<String> nextLine = new ArrayList<>();
         String nextField = getNextField();
@@ -30,7 +39,7 @@ public class CSVReader {
         return nextLine;
     }
 
-    private String getNextField() throws IOException {
+    private @Nullable String getNextField() throws IOException {
         if (lineEnded) {
             return null;
         }
@@ -72,5 +81,12 @@ public class CSVReader {
 
     public List<List<String>> getLines() {
         return lines;
+    }
+
+    public List<String> getLine(int index) {
+        if (index > lines.size()) {
+            return null;
+        }
+        return lines.get(index);
     }
 }
