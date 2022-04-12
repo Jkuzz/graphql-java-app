@@ -17,6 +17,11 @@ public class CSVReader {
         return lines.get(0);
     }
 
+    /**
+     * Reads the input reader and parses legal lines in the csv file into list of Strings
+     * @param inReader Reader containing the csv input
+     * @throws IOException reader IO fails
+     */
     public CSVReader(Reader inReader) throws IOException {
         inputReader = inReader;
         while(!streamEnded) {
@@ -27,6 +32,11 @@ public class CSVReader {
         }
     }
 
+    /**
+     * Reads csv fields and if line length matches header length, returns the line
+     * @return next valid csv line as list
+     * @throws IOException reader IO fails
+     */
     private List<String> getNextLine() throws IOException {
         lineEnded = false;
         ArrayList<String> nextLine = new ArrayList<>();
@@ -41,7 +51,13 @@ public class CSVReader {
         return nextLine;
     }
 
-    private @Nullable String getNextField() throws IOException {
+    /**
+     * Parses next csv field from input reader. Respects double-quoted fields.
+     * @return next field
+     * @throws IOException reader IO fails
+     * @throws IllegalArgumentException csv file has incorrect format
+     */
+    private String getNextField() throws IOException {
         if (lineEnded) {
             return null;
         }
@@ -87,10 +103,19 @@ public class CSVReader {
         return nextField.toString();
     }
 
+    /**
+     * Returns parsed csv lines without header.
+     * @return List of all lines
+     */
     public List<List<String>> getLines() {
         return lines.subList(1, lines.size());
     }
 
+    /**
+     * Converts parsed csv file into a list of maps, one map for each csv line
+     * maps use csv header as keys and the column contents as values
+     * @return List of lines converted to maps
+     */
     public List<Map<String, String>> getLinesAsMaps() {
         List<Map<String, String>> lineMaps = new ArrayList<>();
         List<String> header = getHeader();
@@ -100,18 +125,20 @@ public class CSVReader {
             for(int i=0; i<line.size(); i+=1) {
                 outMap.put(header.get(i), line.get(i));
             }
-            if(outMap.size() < 10) {
-                System.out.println(outMap);
-            }
             lineMaps.add(outMap);
         }
         return lineMaps;
     }
 
+    /**
+     * Return parsed line at selected index. For header, use getHeader instead!
+     * @param index line no. to get
+     * @return The selected line
+     */
     public List<String> getLine(int index) {
-        if (index > lines.size()) {
+        if (index + 1 > lines.size()) {
             return null;
         }
-        return lines.get(index);
+        return lines.get(index + 1);
     }
 }

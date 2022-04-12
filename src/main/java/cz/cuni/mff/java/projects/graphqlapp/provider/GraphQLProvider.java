@@ -10,6 +10,9 @@ public class GraphQLProvider {
     private final GraphQL graphQL;
     private final GraphQLDataFetchers graphQLDataFetchers;
 
+    /**
+     * This provides the GraphQL object to be queried
+     */
     public GraphQL getGraphQL() {
         return graphQL;
     }
@@ -20,6 +23,11 @@ public class GraphQLProvider {
         this.graphQL = GraphQL.newGraphQL(schema).build();
     }
 
+    /**
+     * Builds the schema using GraphQL-java from the raw schema file contents and the runtime wiring
+     * @param sdl The parsed GraphQL schema file
+     * @return The build schema
+     */
     private GraphQLSchema buildSchema(String sdl) {
         TypeDefinitionRegistry typeRegistry = new SchemaParser().parse(sdl);
         RuntimeWiring runtimeWiring = buildWiring();
@@ -27,6 +35,12 @@ public class GraphQLProvider {
         return schemaGenerator.makeExecutableSchema(typeRegistry, runtimeWiring);
     }
 
+
+    /**
+     * Builds the runtime wiring that is used in the schema generator to create an ExecutableSchema.
+     * This links individual queries with their data fetchers, which are provided by graphQLDataFetchers
+     * @return The runtime wiring
+     */
     private RuntimeWiring buildWiring() {
         return RuntimeWiring.newRuntimeWiring()
                 .type(newTypeWiring("Query")
