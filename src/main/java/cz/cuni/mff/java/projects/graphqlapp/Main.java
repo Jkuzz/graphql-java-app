@@ -20,29 +20,24 @@ public class Main {
                     }
                 }
                 }""";
+        query = """
+                {
+                characters {
+                    name
+                }
+                }""";
 //        query = """
 //                {
-//                booksByAuthor(authorId: "author-1") {
+//                characterByName(name: "Hunthor") {
+//                    id
 //                    name
-//                    pageCount
-//                    author {
-//                        firstName
-//                        lastName
+//                    race
+//                    realm
+//                    spouse {
+//                        name
 //                    }
 //                }
 //                }""";
-        query = """
-                {
-                characterByName(name: "Hunthor") {
-                    id
-                    name
-                    race
-                    realm
-                    spouse {
-                        name
-                    }
-                }
-                }""";
         ExecutionResult result = graphQL.execute(query);
         if (!result.getErrors().isEmpty()) {
             System.out.println("Error occurred during query.");
