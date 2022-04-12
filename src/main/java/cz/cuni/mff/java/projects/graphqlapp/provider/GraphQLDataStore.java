@@ -59,7 +59,6 @@ public class GraphQLDataStore {
             return;
         }
         characters = csv.getLinesAsMaps();
-
     }
 
 
@@ -67,7 +66,11 @@ public class GraphQLDataStore {
         return characters;
     }
 
-
+    /**
+     * Search for a character by name. Handles unnamed spouses by creating dummy maps.
+     * @param name character name to be searched for
+     * @return Map of character
+     */
     public Map<String, String> searchByName(String name) {
         System.out.println("Searching for: \"" + name + "\"");
         if(name.equals("Unnamed wife") || name.equals("Unnamed husband")) {
@@ -80,6 +83,13 @@ public class GraphQLDataStore {
             .orElse(null);
     }
 
+    /**
+     * Creates a dummy map for an unknown spouse of a known character.
+     * Returned map in format identical to that of other characters.
+     * @param isMale true if spouse is husband
+     * @param spouseName name of the character for which the spouse is being generated
+     * @return spouse map
+     */
     private Map<String, String> getDummySpouseMap(boolean isMale, String spouseName) {
         //id,birth,death,gender,hair,height,name,race,realm,spouse
         return Map.of(
