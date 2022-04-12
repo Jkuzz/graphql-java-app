@@ -26,6 +26,12 @@ public class Main {
                     name
                 }
                 }""";
+        query = """
+                {
+                characterById(id: 0) {
+                    name
+                    }
+                }""";
 //        query = """
 //                {
 //                characterByName(name: "Hunthor") {

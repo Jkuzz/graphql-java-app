@@ -52,7 +52,7 @@ public class GraphQLDataFetchers {
 
     public DataFetcher<Map<String, String>> getCharacterByIdDataFetcher() {
         return dataFetchingEnvironment -> {
-            String id = dataFetchingEnvironment.getArgument("characterId");
+            String id = dataFetchingEnvironment.getArgument("id");
             return dataStore.getCharacters().get(Integer.parseInt(id));
         };
     }

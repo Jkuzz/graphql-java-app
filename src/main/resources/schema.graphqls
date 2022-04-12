@@ -3,7 +3,7 @@ type Query {
     booksByAuthor(authorId: ID!): [Book!]!
     books: [Book!]!
     characters: [Character!]!
-    characterById(characterId: ID!): Character
+    characterById(id: ID!): Character
     characterByName(name: String!): Character
 }
 
