@@ -1,10 +1,8 @@
-package cz.cuni.mff.java.projects.graphqlapp;
+package cz.cuni.mff.java.projects.graphqlapp.provider;
 
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.*;
-
-import java.io.*;
 
 import static graphql.schema.idl.TypeRuntimeWiring.newTypeWiring;
 

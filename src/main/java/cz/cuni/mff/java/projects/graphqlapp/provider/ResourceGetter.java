@@ -1,4 +1,4 @@
-package cz.cuni.mff.java.projects.graphqlapp;
+package cz.cuni.mff.java.projects.graphqlapp.provider;
 
 import java.io.IOException;
 import java.io.InputStream;

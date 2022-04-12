@@ -1,5 +1,6 @@
 package cz.cuni.mff.java.projects.graphqlapp;
 
+import cz.cuni.mff.java.projects.graphqlapp.provider.GraphQLProvider;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
 

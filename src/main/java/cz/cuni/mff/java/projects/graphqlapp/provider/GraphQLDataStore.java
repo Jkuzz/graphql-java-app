@@ -1,5 +1,7 @@
-package cz.cuni.mff.java.projects.graphqlapp;
+package cz.cuni.mff.java.projects.graphqlapp.provider;
 
+import cz.cuni.mff.java.projects.graphqlapp.Main;
+import cz.cuni.mff.java.projects.graphqlapp.csv.CSVReader;
 import graphql.com.google.common.collect.ImmutableMap;
 
 import java.io.FileReader;
@@ -93,5 +95,4 @@ public class GraphQLDataStore {
             "Spouse", spouseName
         );
     }
-
 }
