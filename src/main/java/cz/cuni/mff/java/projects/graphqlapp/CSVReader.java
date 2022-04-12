@@ -22,19 +22,22 @@ public class CSVReader {
         inputReader = inReader;
         while(!streamEnded) {
             List<String> nextLine = getNextLine();
-            if (nextLine.size() != 0) {
+            if (nextLine != null && nextLine.size() != 0) {
                 lines.add(nextLine);
             }
         }
     }
 
-    private @NotNull List<String> getNextLine() throws IOException {
+    private List<String> getNextLine() throws IOException {
         lineEnded = false;
         ArrayList<String> nextLine = new ArrayList<>();
         String nextField = getNextField();
         while (nextField != null) {
             nextLine.add(nextField.trim());
             nextField = getNextField();
+        }
+        if(lines.size() > 0 && nextLine.size() < lines.get(0).size()) {
+            return null;  // Do not add lines that have fewer fields than the header
         }
         return nextLine;
     }
@@ -97,6 +100,9 @@ public class CSVReader {
             Map<String, String> outMap = new TreeMap<>();
             for(int i=0; i<line.size(); i+=1) {
                 outMap.put(header.get(i), line.get(i));
+            }
+            if(outMap.size() < 10) {
+                System.out.println(outMap);
             }
             lineMaps.add(outMap);
         }

@@ -20,12 +20,12 @@ type Author {
 }
 
 type Character {
-    id: ID
-    name: String
+    id: ID!
+    name: String!
     birth: String
     death: String
     gender: String
     race: String
     realm: String
-    Spouse: String
+    spouse: Character
 }

@@ -19,24 +19,27 @@ public class Main {
                     }
                 }
                 }""";
+//        query = """
+//                {
+//                booksByAuthor(authorId: "author-1") {
+//                    name
+//                    pageCount
+//                    author {
+//                        firstName
+//                        lastName
+//                    }
+//                }
+//                }""";
         query = """
                 {
-                booksByAuthor(authorId: "author-1") {
-                    name
-                    pageCount
-                    author {
-                        firstName
-                        lastName
-                    }
-                }
-                }""";
-        query = """
-                {
-                characterByName(name: "Legolas") {
+                characterByName(name: "Hunthor") {
                     id
                     name
                     race
                     realm
+                    spouse {
+                        name
+                    }
                 }
                 }""";
         ExecutionResult result = graphQL.execute(query);

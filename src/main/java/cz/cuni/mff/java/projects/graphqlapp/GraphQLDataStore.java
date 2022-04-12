@@ -60,7 +60,38 @@ public class GraphQLDataStore {
 
     }
 
+
     public List<Map<String, String>> getCharacters() {
         return characters;
     }
+
+
+    public Map<String, String> searchByName(String name) {
+        System.out.println("Searching for: \"" + name + "\"");
+        if(name.equals("Unnamed wife") || name.equals("Unnamed husband")) {
+            return getDummySpouseMap(name.equals("Unnamed husband"), name);
+        }
+        return getCharacters()
+            .stream()
+            .filter(character -> character.get("name").equals(name))
+            .findFirst()
+            .orElse(null);
+    }
+
+    private Map<String, String> getDummySpouseMap(boolean isMale, String spouseName) {
+        //id,birth,death,gender,hair,height,name,race,realm,spouse
+        return Map.of(
+            "id", "-1",
+            "birth", "Unknown",
+            "death", "Unknown",
+            "gender", isMale ? "Male" : "Female",
+            "hair", "Unknown",
+            "height", "Unknown",
+            "name", "Unknown",
+            "race", "Unknown",
+            "realm", "Unknown",
+            "Spouse", spouseName
+        );
+    }
+
 }

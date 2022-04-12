@@ -53,14 +53,18 @@ public class GraphQLDataFetchers {
         };
     }
 
+    public DataFetcher<Map<String, String>> getCharacterSpouseDataFetcher() {
+        return dataFetchingEnvironment -> {
+            Map<String,String> character = dataFetchingEnvironment.getSource();
+            String name = character.get("spouse");
+            return dataStore.searchByName(name);
+        };
+    }
+
     public DataFetcher<Map<String, String>> getCharacterByNameDataFetcher() {
         return dataFetchingEnvironment -> {
             String name = dataFetchingEnvironment.getArgument("name");
-            return dataStore.getCharacters()
-                    .stream()
-                    .filter(character -> character.get("name").equals(name))
-                    .findFirst()
-                    .orElse(null);
+            return dataStore.searchByName(name);
         };
     }
 }
