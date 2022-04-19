@@ -1,11 +1,2 @@
 {
-characterByName(name: "Hunthor") {
-    id
-    name
-    race
-    realm
-    spouse {
-        name
-    }
-}
 }

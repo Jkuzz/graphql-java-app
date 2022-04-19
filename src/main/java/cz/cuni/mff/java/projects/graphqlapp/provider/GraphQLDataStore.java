@@ -47,62 +47,23 @@ public class GraphQLDataStore {
                     "lastName", "Rice")
     );
 
-    private List<Map<String, String>> characters;
+//    private List<Map<String, String>> obce;
+//    private List<Map<String, String>> okresy;
+    private List<Map<String, String>> kraje;
 
     public GraphQLDataStore() {
         CSVReader csv;
         try {
-            String resourceName = Main.class.getClassLoader().getResource("year.csv").getPath();
+            String resourceName = Main.class.getClassLoader().getResource("CIS100_CS.csv").getPath();
             csv = new CSVReader(new FileReader(resourceName));
         } catch (IOException e) {
             e.printStackTrace();
             return;
         }
-        characters = csv.getLinesAsMaps();
+        kraje = csv.getLinesAsMaps();
     }
 
 
-    public List<Map<String, String>> getCharacters() {
-        return characters;
-    }
 
-    /**
-     * Search for a character by name. Handles unnamed spouses by creating dummy maps.
-     * @param name character name to be searched for
-     * @return Map of character
-     */
-    public Map<String, String> searchByName(String name) {
-        System.out.println("Searching for: \"" + name + "\"");
-        if(name.equals("Unnamed wife") || name.equals("Unnamed husband")) {
-            return getDummySpouseMap(name.equals("Unnamed husband"), name);
-        }
-        return getCharacters()
-            .stream()
-            .filter(character -> character.get("name").equals(name))
-            .findFirst()
-            .orElse(null);
-    }
 
-    /**
-     * Creates a dummy map for an unknown spouse of a known character.
-     * Returned map in format identical to that of other characters.
-     * @param isMale true if spouse is husband
-     * @param spouseName name of the character for which the spouse is being generated
-     * @return spouse map
-     */
-    private Map<String, String> getDummySpouseMap(boolean isMale, String spouseName) {
-        //id,birth,death,gender,hair,height,name,race,realm,spouse
-        return Map.of(
-            "id", "-1",
-            "birth", "Unknown",
-            "death", "Unknown",
-            "gender", isMale ? "Male" : "Female",
-            "hair", "Unknown",
-            "height", "Unknown",
-            "name", "Unknown",
-            "race", "Unknown",
-            "realm", "Unknown",
-            "Spouse", spouseName
-        );
-    }
 }

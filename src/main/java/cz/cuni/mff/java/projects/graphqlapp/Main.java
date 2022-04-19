@@ -10,21 +10,6 @@ public class Main {
         GraphQL graphQL = new GraphQLProvider().getGraphQL();
         String query = """
                 {
-                characters {
-                    name
-                }
-                }""";
-        query = """
-                {
-                characterByName(name: "Hunthor") {
-                    id
-                    name
-                    race
-                    realm
-                    spouse {
-                        name
-                    }
-                }
                 }""";
         ExecutionResult result = graphQL.execute(query);
         if (!result.getErrors().isEmpty()) {
