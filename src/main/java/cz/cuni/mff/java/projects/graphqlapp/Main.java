@@ -10,40 +10,22 @@ public class Main {
         GraphQL graphQL = new GraphQLProvider().getGraphQL();
         String query = """
                 {
-                bookOne: bookById(id: "book-1") {
-                    name
-                    pageCount
-                    author {
-                        id
-                        firstName
-                        lastName
-                    }
-                }
-                }""";
-        query = """
-                {
                 characters {
                     name
                 }
                 }""";
         query = """
                 {
-                characterById(id: 0) {
+                characterByName(name: "Hunthor") {
+                    id
                     name
+                    race
+                    realm
+                    spouse {
+                        name
                     }
+                }
                 }""";
-//        query = """
-//                {
-//                characterByName(name: "Hunthor") {
-//                    id
-//                    name
-//                    race
-//                    realm
-//                    spouse {
-//                        name
-//                    }
-//                }
-//                }""";
         ExecutionResult result = graphQL.execute(query);
         if (!result.getErrors().isEmpty()) {
             System.out.println("Error occurred during query.");

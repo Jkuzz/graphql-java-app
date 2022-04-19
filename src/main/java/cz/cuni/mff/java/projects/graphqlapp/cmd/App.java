@@ -6,6 +6,9 @@ import graphql.GraphQL;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Scanner;
 
 
@@ -18,10 +21,10 @@ public class App {
             query = getUserQuery();
         } else {
             try {
-                FileReader fileReader = new FileReader(args[0]);
-                query = fileReader.toString();
-            } catch (FileNotFoundException e) {
+                query = Files.readString(Path.of(args[0]));
+            } catch (IOException e) {
                 System.out.println("Provided file name could not be found.");
+                e.printStackTrace();
                 System.exit(2);
             }
         }
@@ -37,8 +40,11 @@ public class App {
 
     private static String getUserQuery() {
         Scanner input = new Scanner(System.in);
-        String line = input.nextLine();
-        System.out.println(line);
-        return line;
+        StringBuilder userQuery = new StringBuilder();
+        while(input.hasNext()) {
+            userQuery.append(input.nextLine());
+        }
+        System.out.println(userQuery);
+        return userQuery.toString();
     }
 }

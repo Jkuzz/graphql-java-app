@@ -24,12 +24,12 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>1.7.35</version>
+            <version>1.7.36</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>RELEASE</version>
+            <version>23.0.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
@@ -46,7 +46,10 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.0.0</version>
                 <configuration>
-                    <mainClass>cz.cuni.mff.java.projects.graphqlapp.Main</mainClass>
+                    <mainClass>cz.cuni.mff.java.projects.graphqlapp.cmd.App</mainClass>
+                    <arguments>
+                        <argument>.\test_query.txt</argument>
+                    </arguments>
                 </configuration>
             </plugin>
         </plugins>
