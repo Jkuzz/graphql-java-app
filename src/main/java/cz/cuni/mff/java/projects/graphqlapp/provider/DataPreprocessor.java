@@ -1,7 +1,5 @@
 package cz.cuni.mff.java.projects.graphqlapp.provider;
 
-import graphql.com.google.common.collect.ImmutableMap;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +26,12 @@ public class DataPreprocessor {
         return outMaps;
     }
 
+    /**
+     * Transforms a linking dataset map with keys CHODNOTA2 and CHODNOTA1 into a map
+     * with key CHODNOTA2 and value CHODNOTA1. This is used when adding a link between two datasets
+     * @param bindingMap linking dataset map with keys CHODNOTA2 and CHODNOTA1
+     * @return map with key CHODNOTA2 and value CHODNOTA1
+     */
     public static Map<String, String> PrepareBinding(List<Map<String, String>> bindingMap) {
         Map<String, String> outMap = new HashMap<>();
         for(Map<String, String> bind: bindingMap) {
