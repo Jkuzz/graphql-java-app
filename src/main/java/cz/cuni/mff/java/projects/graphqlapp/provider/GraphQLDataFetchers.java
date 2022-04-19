@@ -42,6 +42,10 @@ public class GraphQLDataFetchers {
         return dataFetchingEnvironment -> dataStore.getOkresy();
     }
 
+    public DataFetcher<List<Map<String, String>>> getObceDataFetcher() {
+        return dataFetchingEnvironment -> dataStore.getObce();
+    }
+
     public DataFetcher<Map<String, String>> getOkresKrajDataFetcher() {
         return dataFetchingEnvironment -> {
             Map<String,String> okres = dataFetchingEnvironment.getSource();

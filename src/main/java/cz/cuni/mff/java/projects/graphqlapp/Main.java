@@ -10,12 +10,9 @@ public class Main {
         GraphQL graphQL = new GraphQLProvider().getGraphQL();
         String query = """
                 {
-                okresy {
+                obce {
                     id
                     name
-                    kraj {
-                        name
-                    }
                 }
                 }""";
         ExecutionResult result = graphQL.execute(query);

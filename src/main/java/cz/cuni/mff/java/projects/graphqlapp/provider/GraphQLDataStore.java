@@ -54,9 +54,13 @@ public class GraphQLDataStore {
         return okresy;
     }
 
-//    private List<Map<String, String>> obce;
-    private List<Map<String, String>> okresy;
-    private List<Map<String, String>> kraje;
+    public List<Map<String, String>> getObce() {
+        return obce;
+    }
+
+    private final List<Map<String, String>> obce;
+    private final List<Map<String, String>> okresy;
+    private final List<Map<String, String>> kraje;
 
     public GraphQLDataStore() {
         kraje = renameCSV("CIS0100_CS.csv", ImmutableMap.of(
@@ -69,6 +73,10 @@ public class GraphQLDataStore {
                 "name", "TEXT",
                 "NUTS", "CZNUTS",
                 "KOD_RUIAN", "KOD_RUIAN"
+        ));
+        obce = renameCSV("CIS0043_CS.csv", ImmutableMap.of(
+                "id", "CHODNOTA",
+                "name", "TEXT"
         ));
         createBinding("VAZ0100_0101_CS.csv", "krajId", okresy);
     }
