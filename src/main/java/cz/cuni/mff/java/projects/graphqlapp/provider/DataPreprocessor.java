@@ -1,5 +1,7 @@
 package cz.cuni.mff.java.projects.graphqlapp.provider;
 
+import graphql.com.google.common.collect.ImmutableMap;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,5 +26,13 @@ public class DataPreprocessor {
             outMaps.add(newMap);
         }
         return outMaps;
+    }
+
+    public static Map<String, String> PrepareBinding(List<Map<String, String>> bindingMap) {
+        Map<String, String> outMap = new HashMap<>();
+        for(Map<String, String> bind: bindingMap) {
+            outMap.put(bind.get("CHODNOTA2"), bind.get("CHODNOTA1"));
+        }
+        return outMap;
     }
 }

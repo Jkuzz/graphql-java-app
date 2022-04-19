@@ -10,10 +10,12 @@ public class Main {
         GraphQL graphQL = new GraphQLProvider().getGraphQL();
         String query = """
                 {
-                kraje {
+                okresy {
                     id
                     name
-                    NUTS
+                    kraj {
+                        name
+                    }
                 }
                 }""";
         ExecutionResult result = graphQL.execute(query);

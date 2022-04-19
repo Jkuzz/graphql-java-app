@@ -4,6 +4,7 @@ type Query {
     books: [Book!]!
     kraje: [Kraj!]!
     okresy: [Okres!]!
+    krajById(krajId: ID): Kraj
 }
 
 type Book {
@@ -30,6 +31,7 @@ type Okres {
     name: String!
     NUTS: String!
     RUIAN: String
+    kraj: Kraj
 }
 
 type Obec {

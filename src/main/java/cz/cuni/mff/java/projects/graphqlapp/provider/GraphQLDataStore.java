@@ -7,9 +7,7 @@ import graphql.com.google.common.collect.ImmutableMap;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GraphQLDataStore {
 
@@ -72,6 +70,7 @@ public class GraphQLDataStore {
                 "NUTS", "CZNUTS",
                 "KOD_RUIAN", "KOD_RUIAN"
         ));
+        createBinding("VAZ0100_0101_CS.csv", "krajId", okresy);
     }
 
     private List<Map<String, String>> renameCSV(String resourceName, Map<String, String> fieldsDict) {
@@ -81,10 +80,30 @@ public class GraphQLDataStore {
             csv = new CSVReader(new FileReader(resource, Charset.forName("Cp1250")));
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return new ArrayList<>();
         }
         return DataPreprocessor.PrepareData(csv.getLinesAsMaps(), fieldsDict);
     }
 
+    private void createBinding(String resourceName, String newFieldName, List<Map<String, String>> lineMaps) {
+        Map<String, String> binding = DataPreprocessor.PrepareBinding(
+                Objects.requireNonNull(renameCSV(resourceName, ImmutableMap.of(
+                                "CHODNOTA1", "CHODNOTA1",
+                                "CHODNOTA2", "CHODNOTA2"
+                )))
+        );
+
+        for(Map<String, String> map: lineMaps) {
+            map.put(newFieldName, binding.get(map.get("id")));
+        }
+    }
+
+    public Map<String, String> getKrajById(String krajId) {
+        return kraje
+                .stream()
+                .filter(author -> author.get("id").equals(krajId))
+                .findFirst()
+                .orElse(null);
+    }
 
 }

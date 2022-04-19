@@ -42,6 +42,14 @@ public class GraphQLDataFetchers {
         return dataFetchingEnvironment -> dataStore.getOkresy();
     }
 
+    public DataFetcher<Map<String, String>> getOkresKrajDataFetcher() {
+        return dataFetchingEnvironment -> {
+            Map<String,String> okres = dataFetchingEnvironment.getSource();
+            String krajId = okres.get("krajId");
+            return dataStore.getKrajById(krajId);
+        };
+    }
+
     public DataFetcher<Map<String, String>> getAuthorDataFetcher() {
         return dataFetchingEnvironment -> {
             Map<String,String> book = dataFetchingEnvironment.getSource();
