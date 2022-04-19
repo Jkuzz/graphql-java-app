@@ -1,0 +1,17 @@
+{
+"@context": ["http://www.w3.org/ns/csvw",{"@language": "cs"}],
+  "tableSchema": {
+    "columns": [
+    {"name":"KODJAZ","titles":"KODJAZ","dc:description":"Kód jazykové verze textů (CS - čeština, EN - angličtina)","required":true,"datatype": "string"},
+    {"name":"TYPVAZ","titles":"TYPVAZ","dc:description":"Typ vazby","required":true,"datatype":"string"}, 
+    {"name":"AKRCIS1","titles":"AKRCIS1","dc:description":"Akronym číselníku 1","required":true,"datatype": "string"},
+    {"name":"KODCIS1","titles":"KODCIS1","dc:description":"Kód číselníku 1","required":true,"datatype": "number"},
+    {"name":"CHODNOTA1","titles":"CHODNOTA1","dc:description":"Kód položky z číselníku 1","required":true,"datatype":"string"},
+    {"name":"TEXT1","titles":"TEXT1","dc:description":"Plný název položky z číselníku 1","required":true,"datatype":"string"},
+    {"name":"AKRCIS2","titles":"AKRCIS2","dc:description":"Akronym číselníku 2","required":true,"datatype": "string"},
+    {"name":"KODCIS2","titles":"KODCIS2","dc:description":"Kód číselníku 2","required":true,"datatype": "number"},
+    {"name":"CHODNOTA2","titles":"CHODNOTA2","dc:description":"Kód položky z číselníku 2","required":true,"datatype":"string"},
+    {"name":"TEXT2","titles":"TEXT2","dc:description":"Plný název položky z číselníku 2","required":true,"datatype":"string"}
+    ]
+  }
+}				
