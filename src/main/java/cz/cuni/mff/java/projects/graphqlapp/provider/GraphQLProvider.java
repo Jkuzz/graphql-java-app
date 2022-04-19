@@ -46,6 +46,12 @@ public class GraphQLProvider {
                 .type(newTypeWiring("Query")
                         .dataFetcher("bookById", graphQLDataFetchers.getBookByIdDataFetcher()))
                 .type(newTypeWiring("Query")
+                        .dataFetcher("krajById", graphQLDataFetchers.getByIdDataFetcher("kraj")))
+                .type(newTypeWiring("Query")
+                        .dataFetcher("okresById", graphQLDataFetchers.getByIdDataFetcher("okres")))
+                .type(newTypeWiring("Query")
+                        .dataFetcher("obecById", graphQLDataFetchers.getByIdDataFetcher("obec")))
+                .type(newTypeWiring("Query")
                         .dataFetcher("booksByAuthor", graphQLDataFetchers.getBooksByAuthorDataFetcher()))
                 .type(newTypeWiring("Query")
                         .dataFetcher("books", graphQLDataFetchers.getBooksDataFetcher()))
@@ -58,7 +64,11 @@ public class GraphQLProvider {
                 .type(newTypeWiring("Book")
                         .dataFetcher("author", graphQLDataFetchers.getAuthorDataFetcher()))
                 .type(newTypeWiring("Okres")
-                        .dataFetcher("kraj", graphQLDataFetchers.getOkresKrajDataFetcher()))
+                        .dataFetcher("kraj", graphQLDataFetchers.getKrajDataFetcher()))
+                .type(newTypeWiring("Obec")
+                        .dataFetcher("kraj", graphQLDataFetchers.getKrajDataFetcher()))
+                .type(newTypeWiring("Obec")
+                        .dataFetcher("okres", graphQLDataFetchers.getOkresDataFetcher()))
                 .build();
     }
 }

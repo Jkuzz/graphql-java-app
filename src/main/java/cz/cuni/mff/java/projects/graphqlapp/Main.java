@@ -10,9 +10,14 @@ public class Main {
         GraphQL graphQL = new GraphQLProvider().getGraphQL();
         String query = """
                 {
-                obce {
-                    id
+                obecById(id: 539210) {
                     name
+                    okres {
+                        name
+                    }
+                    kraj {
+                        name
+                    }
                 }
                 }""";
         ExecutionResult result = graphQL.execute(query);

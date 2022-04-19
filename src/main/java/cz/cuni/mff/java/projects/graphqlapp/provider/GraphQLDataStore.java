@@ -79,6 +79,8 @@ public class GraphQLDataStore {
                 "name", "TEXT"
         ));
         createBinding("VAZ0100_0101_CS.csv", "krajId", okresy);
+        createBinding("VAZ0100_0043_CS.csv", "krajId", obce);
+        createBinding("VAZ0101_0043_CS.csv", "okresId", obce);
     }
 
     private List<Map<String, String>> renameCSV(String resourceName, Map<String, String> fieldsDict) {
@@ -106,10 +108,10 @@ public class GraphQLDataStore {
         }
     }
 
-    public Map<String, String> getKrajById(String krajId) {
-        return kraje
+    public Map<String, String> getById(String id, List<Map<String, String>> targetData) {
+        return targetData
                 .stream()
-                .filter(author -> author.get("id").equals(krajId))
+                .filter(author -> author.get("id").equals(id))
                 .findFirst()
                 .orElse(null);
     }
