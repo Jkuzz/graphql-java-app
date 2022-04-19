@@ -52,27 +52,39 @@ public class GraphQLDataStore {
         return kraje;
     }
 
-    //    private List<Map<String, String>> obce;
-    //    private List<Map<String, String>> okresy;
+    public List<Map<String, String>> getOkresy() {
+        return okresy;
+    }
+
+//    private List<Map<String, String>> obce;
+    private List<Map<String, String>> okresy;
     private List<Map<String, String>> kraje;
 
     public GraphQLDataStore() {
-        CSVReader csv;
-        try {
-            String resourceName = Main.class.getClassLoader().getResource("CIS0100_CS.csv").getPath();
-            csv = new CSVReader(new FileReader(resourceName, Charset.forName("Cp1250")));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
-        kraje = DataPreprocessor.PrepareData(csv.getLinesAsMaps(), ImmutableMap.of(
+        kraje = renameCSV("CIS0100_CS.csv", ImmutableMap.of(
                 "id", "CHODNOTA",
                 "name", "TEXT",
                 "NUTS", "CZNUTS"
         ));
+        okresy = renameCSV("CIS0101_CS.csv", ImmutableMap.of(
+                "id", "CHODNOTA",
+                "name", "TEXT",
+                "NUTS", "CZNUTS",
+                "KOD_RUIAN", "KOD_RUIAN"
+        ));
     }
 
-
+    private List<Map<String, String>> renameCSV(String resourceName, Map<String, String> fieldsDict) {
+        CSVReader csv;
+        try {
+            String resource = Main.class.getClassLoader().getResource(resourceName).getPath();
+            csv = new CSVReader(new FileReader(resource, Charset.forName("Cp1250")));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return DataPreprocessor.PrepareData(csv.getLinesAsMaps(), fieldsDict);
+    }
 
 
 }

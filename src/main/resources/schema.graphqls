@@ -3,6 +3,7 @@ type Query {
     booksByAuthor(authorId: ID!): [Book!]!
     books: [Book!]!
     kraje: [Kraj!]!
+    okresy: [Okres!]!
 }
 
 type Book {
@@ -28,6 +29,7 @@ type Okres {
     id: ID!
     name: String!
     NUTS: String!
+    RUIAN: String
 }
 
 type Obec {
