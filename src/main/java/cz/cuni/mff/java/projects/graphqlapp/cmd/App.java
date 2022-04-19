@@ -4,8 +4,6 @@ import cz.cuni.mff.java.projects.graphqlapp.provider.GraphQLProvider;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -35,9 +33,15 @@ public class App {
         }
         if (result.getData() != null) {
             System.out.println(result.getData().toString());
+        } else {
+            System.out.println("No data match the query");
         }
     }
 
+    /**
+     * Reads user input from stdin and returns it as string
+     * @return user query string
+     */
     private static String getUserQuery() {
         Scanner input = new Scanner(System.in);
         StringBuilder userQuery = new StringBuilder();

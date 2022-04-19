@@ -47,9 +47,9 @@
                 <version>3.0.0</version>
                 <configuration>
                     <mainClass>cz.cuni.mff.java.projects.graphqlapp.cmd.App</mainClass>
-                    <arguments>
-                        <argument>.\test_query.txt</argument>
-                    </arguments>
+<!--                    <arguments>-->
+<!--                        <argument>.\test_query.txt</argument>-->
+<!--                    </arguments>-->
                 </configuration>
             </plugin>
         </plugins>
