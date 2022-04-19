@@ -2,6 +2,7 @@ type Query {
     bookById(id: ID): Book
     booksByAuthor(authorId: ID!): [Book!]!
     books: [Book!]!
+    kraje: [Kraj!]!
 }
 
 type Book {
@@ -15,4 +16,22 @@ type Author {
     id: ID!
     firstName: String
     lastName: String
+}
+
+type Kraj {
+    id: ID!
+    name: String!
+    NUTS: String!
+}
+
+type Okres {
+    id: ID!
+    name: String!
+    NUTS: String!
+}
+
+type Obec {
+    id: ID!
+    name: String!
+    NUTS: String!
 }

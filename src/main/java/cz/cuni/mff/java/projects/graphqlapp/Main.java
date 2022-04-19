@@ -10,6 +10,11 @@ public class Main {
         GraphQL graphQL = new GraphQLProvider().getGraphQL();
         String query = """
                 {
+                kraje {
+                    id
+                    name
+                    NUTS
+                }
                 }""";
         ExecutionResult result = graphQL.execute(query);
         if (!result.getErrors().isEmpty()) {

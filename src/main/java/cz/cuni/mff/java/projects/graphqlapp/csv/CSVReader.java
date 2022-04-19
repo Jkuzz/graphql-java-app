@@ -1,7 +1,5 @@
 package cz.cuni.mff.java.projects.graphqlapp.csv;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.util.*;

@@ -49,6 +49,8 @@ public class GraphQLProvider {
                         .dataFetcher("booksByAuthor", graphQLDataFetchers.getBooksByAuthorDataFetcher()))
                 .type(newTypeWiring("Query")
                         .dataFetcher("books", graphQLDataFetchers.getBooksDataFetcher()))
+                .type(newTypeWiring("Query")
+                        .dataFetcher("kraje", graphQLDataFetchers.getKrajeDataFetcher()))
                 .type(newTypeWiring("Book")
                         .dataFetcher("author", graphQLDataFetchers.getAuthorDataFetcher()))
                 .build();

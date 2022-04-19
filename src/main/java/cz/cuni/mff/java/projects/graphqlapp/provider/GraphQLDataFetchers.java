@@ -34,6 +34,10 @@ public class GraphQLDataFetchers {
         return dataFetchingEnvironment -> dataStore.getBooks();
     }
 
+    public DataFetcher<List<Map<String, String>>> getKrajeDataFetcher() {
+        return dataFetchingEnvironment -> dataStore.getKraje();
+    }
+
     public DataFetcher<Map<String, String>> getAuthorDataFetcher() {
         return dataFetchingEnvironment -> {
             Map<String,String> book = dataFetchingEnvironment.getSource();

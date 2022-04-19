@@ -6,6 +6,7 @@ import graphql.com.google.common.collect.ImmutableMap;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -47,20 +48,28 @@ public class GraphQLDataStore {
                     "lastName", "Rice")
     );
 
-//    private List<Map<String, String>> obce;
-//    private List<Map<String, String>> okresy;
+    public List<Map<String, String>> getKraje() {
+        return kraje;
+    }
+
+    //    private List<Map<String, String>> obce;
+    //    private List<Map<String, String>> okresy;
     private List<Map<String, String>> kraje;
 
     public GraphQLDataStore() {
         CSVReader csv;
         try {
-            String resourceName = Main.class.getClassLoader().getResource("CIS100_CS.csv").getPath();
-            csv = new CSVReader(new FileReader(resourceName));
+            String resourceName = Main.class.getClassLoader().getResource("CIS0100_CS.csv").getPath();
+            csv = new CSVReader(new FileReader(resourceName, Charset.forName("Cp1250")));
         } catch (IOException e) {
             e.printStackTrace();
             return;
         }
-        kraje = csv.getLinesAsMaps();
+        kraje = DataPreprocessor.PrepareData(csv.getLinesAsMaps(), ImmutableMap.of(
+                "id", "CHODNOTA",
+                "name", "TEXT",
+                "NUTS", "CZNUTS"
+        ));
     }
 
 
