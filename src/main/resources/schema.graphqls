@@ -27,3 +27,15 @@ type Obec {
     kraj: Kraj
     okres: Okres
 }
+
+type Demographics {
+    id: ID!
+    year: Int!
+    deaths: Int
+    immigrations: Int
+    emigrations: Int
+    natGrowth: Int
+    totalGrowth: Int
+    births: Int
+    migSaldo: Int
+}
