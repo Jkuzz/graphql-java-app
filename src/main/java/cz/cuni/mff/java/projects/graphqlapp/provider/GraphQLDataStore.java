@@ -72,7 +72,6 @@ public class GraphQLDataStore {
                                 "CHODNOTA2", "CHODNOTA2"
                 )))
         );
-
         for(Map<String, String> map: lineMaps) {
             map.put(newFieldName, binding.get(map.get("id")));
         }
@@ -81,7 +80,7 @@ public class GraphQLDataStore {
     public Map<String, String> getById(String id, List<Map<String, String>> targetData) {
         return targetData
                 .stream()
-                .filter(author -> author.get("id").equals(id))
+                .filter(area -> area.get("id").equals(id))
                 .findFirst()
                 .orElse(null);
     }
@@ -117,7 +116,7 @@ public class GraphQLDataStore {
 
     /**
      * Finds the resources' folder of the Main class. Uses CIS0043_CS.csv which must be present
-     * @return path to resources folder
+     * @return resources folder
      */
     private File getResourcesPath() {
         URL resource = Main.class.getClassLoader().getResource("CIS0043_CS.csv");
