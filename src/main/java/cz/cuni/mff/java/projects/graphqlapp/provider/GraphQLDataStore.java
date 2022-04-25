@@ -30,6 +30,7 @@ public class GraphQLDataStore {
     private final List<Map<String, String>> obce;
     private final List<Map<String, String>> okresy;
     private final List<Map<String, String>> kraje;
+    private Map<String, Map<String, Map<String, String>>> demographics;
 
     public GraphQLDataStore() {
         kraje = renameCSV("CIS0100_CS.csv", ImmutableMap.of(
@@ -50,7 +51,7 @@ public class GraphQLDataStore {
         createBinding("VAZ0100_0101_CS.csv", "krajId", okresy);
         createBinding("VAZ0100_0043_CS.csv", "krajId", obce);
         createBinding("VAZ0101_0043_CS.csv", "okresId", obce);
-        createDemographics(kraje, okresy, obce);
+        createDemographics();
     }
 
     /**
@@ -93,14 +94,39 @@ public class GraphQLDataStore {
                 .orElse(null);
     }
 
-    private void createDemographics(List<Map<String, String>> kraje,
-                                    List<Map<String, String>> okresy,
-                                    List<Map<String, String>> obce) {
-        List<File> demFiles = getDemographicResources();
-        Map<String, Map<String, String>> demographics = new HashMap<>();
+    /**
+     * Finds available demographic data for requested area code for all available years
+     * @param codebook codebook identifier
+     * @param cbCode entry code in codebook
+     * @return Maps with demographic intro for available years
+     */
+    public List<Map<String, String>> getDemographics(String codebook, String cbCode) {
+        String demId = makeDemId(codebook, cbCode);
+        // Find the demographic area entry for provided area id, there is at most one
+        Map<String, Map<String, String>> areaDems = demographics.entrySet().stream()
+                .filter(entry -> entry.getKey().equals(demId))
+                .findFirst()
+                .map(Map.Entry::getValue)
+                .orElse(new HashMap<>());
 
+        // Flatten years map to list. From e.g.: {2019:{...}, 2020:{...}} to [{..., year:2019}, {..., year:2020}]
+        return areaDems.entrySet().stream()
+                .map(entry -> {
+                    Map<String, String> entryMap = entry.getValue();
+                    entryMap.put("year", entry.getKey());
+                    return entryMap;
+                })
+                .toList();
+    }
+
+    /**
+     * Finds all demographic data resources, processes them into maps and
+     * adds them to the demographics map
+     */
+    private void createDemographics() {
+        List<File> demFiles = getDemographicResources();
+        demographics = new HashMap<>();
         for(File res: demFiles) {
-            System.out.println(res);
             List<Map<String, String>> demLines = renameCSV(res.getName(), ImmutableMap.of(
                     "value", "hodnota",
                     "type", "vuk",
@@ -109,20 +135,32 @@ public class GraphQLDataStore {
                     "year", "rok"
             ));
             for(Map<String, String> demLine: demLines) {
-                safeInsertDemLine(demographics, demLine);
-            }
-            for(Map.Entry<String, Map<String, String>> demLine: demographics.entrySet()) {
-                System.out.println(demLine.getValue());
+                safeInsertDemLine(demLine);
             }
         }
+        System.out.println(getDemographics("43", "539210"));
     }
 
-    private void safeInsertDemLine(Map<String, Map<String, String>> demographics, Map<String, String> line) {
-        String demId = line.get("codebook") + "-" + line.get("cb_code");
-        demographics.computeIfAbsent(demId, k -> new HashMap<>(
-                Map.of("year", line.get("year"))
-        ));  // If demId map is not yet created, create it
-        demographics.get(demId).put(getDemType(line.get("type")), line.get("value"));
+    /**
+     * Safely inserts demographic line into corresponding year in the correct area id
+     * If those maps are not yet initialised, initialises them
+     * @param line csv demographic line as map
+     */
+    private void safeInsertDemLine(Map<String, String> line) {
+        String demId = makeDemId(line.get("codebook"), line.get("cb_code"));
+        demographics.computeIfAbsent(demId, k -> new HashMap<>());  // If demId map is not yet created, create it
+        demographics.get(demId).computeIfAbsent(line.get("year"), k -> new HashMap<>());  // Same for year in area
+        demographics.get(demId).get(line.get("year")).put(getDemType(line.get("type")), line.get("value"));
+    }
+
+    /**
+     * Aggregates area codebook and code to a single string id for mapping
+     * @param codebook codebook identifier
+     * @param cbCode entry code in codebook
+     * @return unique demographic area id
+     */
+    private String makeDemId(String codebook, String cbCode) {
+        return codebook + "-" + cbCode;
     }
 
     private String getDemType(String vuk) {
