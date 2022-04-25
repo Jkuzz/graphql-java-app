@@ -18,6 +18,10 @@ public class Main {
                     kraj {
                         name
                     }
+                    demographics {
+                        year
+                        migSaldo
+                    }
                 }
                 }""";
         ExecutionResult result = graphQL.execute(query);

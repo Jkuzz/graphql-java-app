@@ -138,7 +138,6 @@ public class GraphQLDataStore {
                 safeInsertDemLine(demLine);
             }
         }
-        System.out.println(getDemographics("43", "539210"));
     }
 
     /**

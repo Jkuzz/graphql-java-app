@@ -49,4 +49,12 @@ public class GraphQLDataFetchers {
         };
     }
 
+    public DataFetcher<List<Map<String, String>>> getDemsDataFetcher(String codebook) {
+        return dataFetchingEnvironment -> {
+            Map<String,String> source = dataFetchingEnvironment.getSource();
+            String sourceId = source.get("id");
+            return dataStore.getDemographics(codebook, sourceId);
+        };
+    }
+
 }

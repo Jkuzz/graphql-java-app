@@ -11,6 +11,7 @@ type Kraj {
     id: ID!
     name: String!
     NUTS: String!
+    demographics: [Demographics]!
 }
 
 type Okres {
@@ -19,6 +20,7 @@ type Okres {
     NUTS: String!
     KOD_RUIAN: String
     kraj: Kraj
+    demographics: [Demographics]!
 }
 
 type Obec {
@@ -26,6 +28,7 @@ type Obec {
     name: String!
     kraj: Kraj
     okres: Okres
+    demographics: [Demographics]!
 }
 
 type Demographics {

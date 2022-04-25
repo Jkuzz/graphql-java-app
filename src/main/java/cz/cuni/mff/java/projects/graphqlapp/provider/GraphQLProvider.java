@@ -55,12 +55,18 @@ public class GraphQLProvider {
                         .dataFetcher("okresy", graphQLDataFetchers.getOkresyDataFetcher()))
                 .type(newTypeWiring("Query")
                         .dataFetcher("obce", graphQLDataFetchers.getObceDataFetcher()))
+                .type(newTypeWiring("Kraj")
+                        .dataFetcher("okresById", graphQLDataFetchers.getDemsDataFetcher("100")))
                 .type(newTypeWiring("Okres")
                         .dataFetcher("kraj", graphQLDataFetchers.getKrajDataFetcher()))
+                .type(newTypeWiring("Okres")
+                        .dataFetcher("okresById", graphQLDataFetchers.getDemsDataFetcher("101")))
                 .type(newTypeWiring("Obec")
                         .dataFetcher("kraj", graphQLDataFetchers.getKrajDataFetcher()))
                 .type(newTypeWiring("Obec")
                         .dataFetcher("okres", graphQLDataFetchers.getOkresDataFetcher()))
+                .type(newTypeWiring("Obec")
+                        .dataFetcher("demographics", graphQLDataFetchers.getDemsDataFetcher("43")))
                 .build();
     }
 }
