@@ -13,28 +13,33 @@ import java.util.Scanner;
 public class App {
     public static void main(String[] args) {
         GraphQL graphQL = new GraphQLProvider().getGraphQL();
-        String query = "";
-        if(args.length < 1) {
-            System.out.println("Enter your query:");
-            query = getUserQuery();
-        } else {
-            try {
-                query = Files.readString(Path.of(args[0]));
-            } catch (IOException e) {
-                System.out.println("Provided file name could not be found.");
-                e.printStackTrace();
-                System.exit(2);
+        for(int i = 0;; i += 1) {
+            String query = "";
+            if(args.length <= i) {
+                System.out.println("Enter your query:");
+                query = getUserQuery();
+                if(query.equalsIgnoreCase("exit") || query.equalsIgnoreCase("quit")) {
+                    break;
+                }
+            } else {
+                try {
+                    query = Files.readString(Path.of(args[0]));
+                } catch (IOException e) {
+                    System.out.println("Provided file name could not be found.");
+                    e.printStackTrace();
+                    System.exit(2);
+                }
             }
-        }
-        ExecutionResult result = graphQL.execute(query);
-        if (!result.getErrors().isEmpty()) {
-            System.out.println("Error occurred during query.");
-            System.out.println(result.getErrors());
-        }
-        if (result.getData() != null) {
-            System.out.println(result.getData().toString());
-        } else {
-            System.out.println("No data match the query");
+            ExecutionResult result = graphQL.execute(query);
+            if (!result.getErrors().isEmpty()) {
+                System.out.println("Error occurred during query.");
+                System.out.println(result.getErrors());
+            }
+            if (result.getData() != null) {
+                System.out.println(result.getData().toString());
+            } else {
+                System.out.println("No data match the query");
+            }
         }
     }
 
@@ -49,6 +54,6 @@ public class App {
             userQuery.append(input.nextLine());
         }
         System.out.println(userQuery);
-        return userQuery.toString();
+        return userQuery.toString().trim();
     }
 }
