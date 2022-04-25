@@ -29,7 +29,6 @@ type Obec {
 }
 
 type Demographics {
-    id: ID!
     year: Int!
     deaths: Int
     immigrations: Int
@@ -38,4 +37,5 @@ type Demographics {
     totalGrowth: Int
     births: Int
     migSaldo: Int
+    popMean: Int
 }

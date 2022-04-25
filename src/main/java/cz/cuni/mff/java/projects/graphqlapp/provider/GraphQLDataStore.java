@@ -53,6 +53,14 @@ public class GraphQLDataStore {
         createDemographics(kraje, okresy, obce);
     }
 
+    /**
+     * Reads csv file from resources folder and keeps and renames the csv columns according to fieldsDict
+     * Returns a list of maps, each csv line returning one map with keys according to the ones provided
+     * in fieldsDict and values according to original csv column
+     * @param resourceName name of the csv file in the resources folder
+     * @param fieldsDict map of original column name: new map key name
+     * @return list of: map for each csv line
+     */
     private List<Map<String, String>> renameCSV(String resourceName, Map<String, String> fieldsDict) {
         CSVReader csv;
         try {
@@ -89,10 +97,46 @@ public class GraphQLDataStore {
                                     List<Map<String, String>> okresy,
                                     List<Map<String, String>> obce) {
         List<File> demFiles = getDemographicResources();
+        Map<String, Map<String, String>> demographics = new HashMap<>();
+
         for(File res: demFiles) {
             System.out.println(res);
+            List<Map<String, String>> demLines = renameCSV(res.getName(), ImmutableMap.of(
+                    "value", "hodnota",
+                    "type", "vuk",
+                    "codebook", "vuzemi_cis",
+                    "cb_code", "vuzemi_kod",
+                    "year", "rok"
+            ));
+            for(Map<String, String> demLine: demLines) {
+                safeInsertDemLine(demographics, demLine);
+            }
+            for(Map.Entry<String, Map<String, String>> demLine: demographics.entrySet()) {
+                System.out.println(demLine.getValue());
+            }
         }
-        //        List<Map<String, String>> demLines = renameCSV()
+    }
+
+    private void safeInsertDemLine(Map<String, Map<String, String>> demographics, Map<String, String> line) {
+        String demId = line.get("codebook") + "-" + line.get("cb_code");
+        demographics.computeIfAbsent(demId, k -> new HashMap<>(
+                Map.of("year", line.get("year"))
+        ));  // If demId map is not yet created, create it
+        demographics.get(demId).put(getDemType(line.get("type")), line.get("value"));
+    }
+
+    private String getDemType(String vuk) {
+        switch (vuk) {
+            case "DEM0008" -> { return "deaths"; }
+            case "DEM0009" -> { return "immigrations"; }
+            case "DEM0010" -> { return "emigrations"; }
+            case "DEM0011" -> { return "natGrowth"; }
+            case "DEM0012" -> { return "totalGrowth"; }
+            case "DEM0007" -> { return "births"; }
+            case "DEM0001" -> { return "migSaldo"; }
+            case "DEM0004" -> { return "popMean"; }
+            default -> { return vuk; }
+        }
     }
 
     /**
