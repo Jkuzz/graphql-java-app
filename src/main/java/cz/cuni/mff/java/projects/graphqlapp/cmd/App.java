@@ -5,7 +5,6 @@ import graphql.ExecutionResult;
 import graphql.GraphQL;
 import org.apache.commons.cli.*;
 
-import java.io.Console;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,7 +18,6 @@ public class App {
         GraphQL graphQL = new GraphQLProvider().getGraphQL();
         CommandLine cmd = parseOptions(args);
         boolean continueExec = cmd.hasOption("c");
-        continueExec = true;
 
         if(cmd.hasOption("f")) {
             for(String fileName: cmd.getOptionValues("f")) {
