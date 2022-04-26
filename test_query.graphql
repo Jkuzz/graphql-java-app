@@ -1,0 +1,15 @@
+{
+obecById(id: 539210) {
+    name
+    okres {
+        name
+    }
+    kraj {
+        name
+    }
+    demographics {
+        year
+        migSaldo
+    }
+}
+}
