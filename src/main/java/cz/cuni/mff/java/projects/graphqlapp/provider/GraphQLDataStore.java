@@ -32,6 +32,9 @@ public class GraphQLDataStore {
     private final List<Map<String, String>> kraje;
     private Map<String, Map<String, Map<String, String>>> demographics;
 
+    /**
+     * Initiates the data store by reading data files into memory and creating in-memory bindings
+     */
     public GraphQLDataStore() {
         kraje = renameCSV("CIS0100_CS.csv", ImmutableMap.of(
                 "id", "CHODNOTA",
@@ -65,8 +68,9 @@ public class GraphQLDataStore {
     private List<Map<String, String>> renameCSV(String resourceName, Map<String, String> fieldsDict) {
         CSVReader csv;
         try {
-            String resource = Main.class.getClassLoader().getResource(resourceName).getPath();
-            csv = new CSVReader(new FileReader(resource, Charset.forName("Cp1250")));
+            URL resource = Main.class.getClassLoader().getResource(resourceName);
+            assert resource != null;
+            csv = new CSVReader(new FileReader(resource.getPath(), Charset.forName("Cp1250")));
         } catch (Exception e) {
             e.printStackTrace();
             return new ArrayList<>();
@@ -74,6 +78,12 @@ public class GraphQLDataStore {
         return DataPreprocessor.PrepareData(csv.getLinesAsMaps(), fieldsDict);
     }
 
+    /**
+     * Reads a codebook-binding resource and creates a binding in the provided rows-map.
+     * @param resourceName name of codebook-binding resource file
+     * @param newFieldName map key to insert the bind target id under
+     * @param lineMaps csv rows as maps to put binding into
+     */
     private void createBinding(String resourceName, String newFieldName, List<Map<String, String>> lineMaps) {
         Map<String, String> binding = DataPreprocessor.PrepareBinding(
                 Objects.requireNonNull(renameCSV(resourceName, ImmutableMap.of(
@@ -86,6 +96,12 @@ public class GraphQLDataStore {
         }
     }
 
+    /**
+     * Search a data source of csv rows as maps by id
+     * @param id to get
+     * @param targetData which data list to search
+     * @return map of csv row with requested id, null if it doesn't exist
+     */
     public Map<String, String> getById(String id, List<Map<String, String>> targetData) {
         return targetData
                 .stream()
@@ -162,6 +178,11 @@ public class GraphQLDataStore {
         return codebook + "-" + cbCode;
     }
 
+    /**
+     * Maps the original data columns to demographics schema fields
+     * @param vuk field from demographic csv data - "vuk" column
+     * @return graphQL schema field name
+     */
     private String getDemType(String vuk) {
         switch (vuk) {
             case "DEM0008" -> { return "deaths"; }
