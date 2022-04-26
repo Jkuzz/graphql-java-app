@@ -1,22 +1,16 @@
 package cz.cuni.mff.java.projects.graphqlapp.provider;
 
-import cz.cuni.mff.java.projects.graphqlapp.Main;
 import cz.cuni.mff.java.projects.graphqlapp.csv.CSVReader;
 import graphql.com.google.common.collect.ImmutableMap;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Stream;
-import java.util.zip.ZipFile;
 
 public class GraphQLDataStore {
     public List<Map<String, String>> getKraje() {
