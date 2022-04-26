@@ -76,21 +76,6 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>f</id>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                        <configuration>
-                            <mainClass>cz.cuni.mff.java.projects.graphqlapp.cmd.App</mainClass>
-                            <arguments>
-                                <argument>-f</argument>
-                                <argument>test_query.graphql</argument>
-                                <argument>-f</argument>
-                                <argument>test_query.graphql</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>test</id>
                         <goals>
                             <goal>java</goal>

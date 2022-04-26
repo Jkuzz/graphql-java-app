@@ -19,15 +19,15 @@ type Okres {
     name: String!
     NUTS: String!
     KOD_RUIAN: String
-    kraj: Kraj
+    kraj: Kraj!
     demographics: [Demographics]!
 }
 
 type Obec {
     id: ID!
     name: String!
-    kraj: Kraj
-    okres: Okres
+    kraj: Kraj!
+    okres: Okres!
     demographics: [Demographics]!
 }
 
