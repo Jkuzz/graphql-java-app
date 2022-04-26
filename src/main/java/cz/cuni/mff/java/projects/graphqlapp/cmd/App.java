@@ -5,6 +5,7 @@ import graphql.ExecutionResult;
 import graphql.GraphQL;
 import org.apache.commons.cli.*;
 
+import java.io.Console;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -18,6 +19,7 @@ public class App {
         GraphQL graphQL = new GraphQLProvider().getGraphQL();
         CommandLine cmd = parseOptions(args);
         boolean continueExec = cmd.hasOption("c");
+        continueExec = true;
 
         if(cmd.hasOption("f")) {
             for(String fileName: cmd.getOptionValues("f")) {
@@ -36,14 +38,14 @@ public class App {
                 System.exit(0);
             }
         }
-        Scanner queryScanner = getQueryScanner(cmd);
-        if(queryScanner == null) {  // Exception when reading pipe file
-            System.exit(1);
-        }
 
         do {  // Happens once if continuous exec is not enabled, else until terminated by user
+            Scanner queryScanner = getQueryScanner(cmd);
+            if(queryScanner == null) {  // Exception when reading pipe file
+                System.exit(1);
+            }
             String query = getUserQuery(queryScanner);
-            if(query.equalsIgnoreCase("exit") || query.equalsIgnoreCase("quit")) {
+            if(query.length() == 0 || query.equalsIgnoreCase("exit") || query.equalsIgnoreCase("quit")) {
                 break;
             }
             System.out.println(executeQuery(graphQL, query));
@@ -68,7 +70,7 @@ public class App {
             }
             return outScanner;
         } else {
-            return new Scanner(System.in);
+            return new Scanner(System.console().reader());
         }
     }
 
