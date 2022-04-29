@@ -7,17 +7,18 @@ public class AreaPanel {
     static JPanel makeAreaPanel() {
         JPanel pickerPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
+
         gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.insets = new Insets(3, 20, 3, 20);
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1;
+        gbc.weighty = 0;
         gbc.gridx = 0;
         gbc.gridy = 0;
-
         pickerPanel.add(makeAreaButtons(), gbc);
 
-        gbc.gridy = GridBagConstraints.RELATIVE;
         JTextField areaNameSearch = new JTextField();
+        gbc.gridy = GridBagConstraints.RELATIVE;
         pickerPanel.add(areaNameSearch, gbc);
 
         gbc.weighty = 1;
@@ -65,7 +66,6 @@ public class AreaPanel {
 
         JScrollPane scrollPane = new JScrollPane(areasList);
         scrollPane.setPreferredSize(new Dimension(100, 100));
-
         return scrollPane;
     }
 

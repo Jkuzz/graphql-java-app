@@ -26,7 +26,7 @@ public class App {
         gbc.ipady = 20;
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.weightx = 0.2;
+        gbc.weightx = 0.1;
         gbc.weighty = 1;
 
         JPanel pickerPanel = AreaPanel.makeAreaPanel();
@@ -34,7 +34,7 @@ public class App {
 
         gbc.gridx = GridBagConstraints.RELATIVE;
         gbc.insets = new Insets(15, 10, 15, 20);
-        gbc.weightx = 0.85;
+        gbc.weightx = 0.9;
         JPanel displayPanel = PopulationPanel.makePopDisplay();
         contentPanel.add(displayPanel, gbc);
         return contentPanel;
