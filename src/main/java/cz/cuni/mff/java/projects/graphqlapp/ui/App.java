@@ -29,13 +29,15 @@ public class App {
         gbc.weightx = 0.1;
         gbc.weighty = 1;
 
-        JPanel pickerPanel = AreaPanel.makeAreaPanel();
+        AreaPanel areaPanel = new AreaPanel(new Color(200, 100, 100));
+        JPanel pickerPanel = areaPanel.makeAreaPanel();
         contentPanel.add(pickerPanel, gbc);
 
         gbc.gridx = GridBagConstraints.RELATIVE;
         gbc.insets = new Insets(15, 10, 15, 20);
         gbc.weightx = 0.9;
-        JPanel displayPanel = PopulationPanel.makePopDisplay();
+        PopulationPanel popPanel = new PopulationPanel();
+        JPanel displayPanel = popPanel.makePopDisplay();
         contentPanel.add(displayPanel, gbc);
         return contentPanel;
     }

@@ -4,10 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 
 public class AreaPanel {
-    static JPanel makeAreaPanel() {
-        JPanel pickerPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
+    JPanel pickerPanel = new JPanel(new GridBagLayout());
+    GridBagConstraints gbc = new GridBagConstraints();
+    public Color bgColor;
 
+    public AreaPanel(Color bgCol) {
+        bgColor = bgCol;
+    }
+
+    public JPanel makeAreaPanel() {
         gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.insets = new Insets(3, 20, 3, 20);
         gbc.fill = GridBagConstraints.BOTH;
@@ -32,7 +37,7 @@ public class AreaPanel {
         return pickerPanel;
     }
 
-    private static JPanel makeAreaButtons() {
+    private JPanel makeAreaButtons() {
         JPanel btnPanel = new JPanel();
         JButton krajeButton = new JButton("Kraje");
         JButton okresyButton = new JButton("Okresy");
@@ -41,16 +46,16 @@ public class AreaPanel {
         btnPanel.add(okresyButton);
         btnPanel.add(obceButton);
 
-        btnPanel.setBackground(new Color(200, 90, 90));
+        btnPanel.setBackground(bgColor);
         return btnPanel;
     }
 
 
-    private static JPanel makeAreaBottomButtons() {
+    private JPanel makeAreaBottomButtons() {
         JPanel btnPanel = new JPanel();
         JButton addButton = new JButton("Add");
         btnPanel.add(addButton);
-        btnPanel.setBackground(new Color(200, 90, 90));
+        btnPanel.setBackground(bgColor);
         return btnPanel;
     }
 
