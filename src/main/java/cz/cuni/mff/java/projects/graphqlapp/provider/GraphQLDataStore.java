@@ -1,14 +1,12 @@
 package cz.cuni.mff.java.projects.graphqlapp.provider;
 
-import cz.cuni.mff.java.projects.graphqlapp.Main;
 import cz.cuni.mff.java.projects.graphqlapp.csv.CSVReader;
 import graphql.com.google.common.collect.ImmutableMap;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -68,9 +66,10 @@ public class GraphQLDataStore {
     private List<Map<String, String>> renameCSV(String resourceName, Map<String, String> fieldsDict) {
         CSVReader csv;
         try {
-            URL resource = Main.class.getClassLoader().getResource(resourceName);
+            URL resource = Thread.currentThread().getContextClassLoader().getResource(resourceName);
             assert resource != null;
-            csv = new CSVReader(new FileReader(resource.getPath(), Charset.forName("Cp1250")));
+            // csv = new CSVReader(new FileReader(resource.getPath(), Charset.forName("Cp1250")));
+            csv = new CSVReader(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(resourceName), "cp1250"));
         } catch (Exception e) {
             e.printStackTrace();
             return new ArrayList<>();
@@ -221,7 +220,7 @@ public class GraphQLDataStore {
      * @return resources folder
      */
     private File getResourcesPath() {
-        URL resource = Main.class.getClassLoader().getResource("CIS0043_CS.csv");
+        URL resource = Thread.currentThread().getContextClassLoader().getResource("CIS0043_CS.csv");
         assert resource != null;
         return new File(new File(resource.getFile()).getParent());
     }

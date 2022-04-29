@@ -41,6 +41,15 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.csv</include>
+                    <include>**/*.graphqls</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -85,7 +94,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>test</id>
+                        <id>dev</id>
                         <goals>
                             <goal>java</goal>
                         </goals>
