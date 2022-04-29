@@ -45,7 +45,9 @@ public class PopulationPanel {
         areaPanel.add(new JLabel(areaToAdd.name()));
         areaPanel.add(new JLabel(areaToAdd.id()));
 
-        areaPanel.add(new JButton("Remove"));
+        JButton removeButton = new JButton("Remove");
+        removeButton.addActionListener(new RemoveAreaListener());
+        areaPanel.add(removeButton);
 
         areaPanel.setBackground(new Color(120, 120, 210));
         gbc.gridx = GridBagConstraints.RELATIVE;
