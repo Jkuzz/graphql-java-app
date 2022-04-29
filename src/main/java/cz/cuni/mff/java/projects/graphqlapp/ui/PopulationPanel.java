@@ -23,6 +23,8 @@ public class PopulationPanel {
     }
 
     void addArea(JPanel areaPanel) {
+        gbc.gridx = GridBagConstraints.RELATIVE;
         displayPanel.add(areaPanel, gbc);
+        displayPanel.revalidate();
     }
 }

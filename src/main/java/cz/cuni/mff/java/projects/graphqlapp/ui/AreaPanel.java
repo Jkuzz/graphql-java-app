@@ -6,7 +6,16 @@ import java.awt.*;
 public class AreaPanel {
     JPanel pickerPanel = new JPanel(new GridBagLayout());
     GridBagConstraints gbc = new GridBagConstraints();
+    private AddAreaListener addAreaListener;
     public Color bgColor;
+
+    /**
+     * Gives access to the listener of the Add Area button, to set target JPanel once it's created
+     * @return the add area listener
+     */
+    public AddAreaListener getAddAreaListener() {
+        return addAreaListener;
+    }
 
     public AreaPanel(Color bgCol) {
         bgColor = bgCol;
@@ -27,7 +36,8 @@ public class AreaPanel {
         pickerPanel.add(areaNameSearch, gbc);
 
         gbc.weighty = 1;
-        pickerPanel.add(makeAreasList(), gbc);
+
+        pickerPanel.add(makeAreasScrollPane(), gbc);
 
         gbc.weighty = 0;
         gbc.insets.bottom = 10;
@@ -37,6 +47,10 @@ public class AreaPanel {
         return pickerPanel;
     }
 
+    /**
+     * Creates a panel containing the area type (codebook) switcher buttons
+     * @return Panel with the buttons
+     */
     private JPanel makeAreaButtons() {
         JPanel btnPanel = new JPanel();
         JButton krajeButton = new JButton("Kraje");
@@ -51,16 +65,25 @@ public class AreaPanel {
     }
 
 
+    /**
+     * Creates a panel containing the 'add area' button
+     * @return Panel containing the button
+     */
     private JPanel makeAreaBottomButtons() {
         JPanel btnPanel = new JPanel();
         JButton addButton = new JButton("Add");
+        addButton.addActionListener(addAreaListener);
         btnPanel.add(addButton);
         btnPanel.setBackground(bgColor);
         return btnPanel;
     }
 
 
-    private static JScrollPane makeAreasList() {
+    /**
+     * Creates a JScrollPane containing a list of available areas to display
+     * @return the scroll pane
+     */
+    private JScrollPane makeAreasScrollPane() {
         DefaultListModel<String> dummyList = new DefaultListModel<>();
         dummyList.add(dummyList.getSize(), "Praha");
         dummyList.add(dummyList.getSize(), "Zbytek");
@@ -69,9 +92,8 @@ public class AreaPanel {
         }
         JList<String> areasList = new JList<>(dummyList);
 
-        JScrollPane scrollPane = new JScrollPane(areasList);
-        scrollPane.setPreferredSize(new Dimension(100, 100));
-        return scrollPane;
+        addAreaListener = new AddAreaListener(areasList);
+        return new JScrollPane(areasList);
     }
 
 }

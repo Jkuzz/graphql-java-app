@@ -39,6 +39,8 @@ public class App {
         PopulationPanel popPanel = new PopulationPanel();
         JPanel displayPanel = popPanel.makePopDisplay();
         contentPanel.add(displayPanel, gbc);
+
+        areaPanel.getAddAreaListener().setPopulationPanel(popPanel);
         return contentPanel;
     }
 
