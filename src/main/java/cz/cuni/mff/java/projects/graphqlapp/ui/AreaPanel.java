@@ -21,6 +21,13 @@ public class AreaPanel {
         bgColor = bgCol;
     }
 
+    /**
+     * Creates a panel that provides the list of available areas to query,
+     * and an option to add them to the display panel.
+     *
+     * !Must set AddAreaListener target panel before use!
+     * @return the panel
+     */
     public JPanel makeAreaPanel() {
         gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.insets = new Insets(3, 20, 3, 20);
@@ -43,7 +50,7 @@ public class AreaPanel {
         gbc.insets.bottom = 10;
         pickerPanel.add(makeAreaBottomButtons(), gbc);
 
-        pickerPanel.setBackground(new Color(200, 90, 90));
+        pickerPanel.setBackground(new Color(200, 100, 100));
         return pickerPanel;
     }
 
@@ -84,13 +91,11 @@ public class AreaPanel {
      * @return the scroll pane
      */
     private JScrollPane makeAreasScrollPane() {
-        DefaultListModel<String> dummyList = new DefaultListModel<>();
-        dummyList.addElement("Praha");
-        dummyList.addElement("Zbytek");
+        DefaultListModel<AreaListItem> dummyList = new DefaultListModel<>();
         for (int i=0; i<=30; i+=1) {
-            dummyList.addElement("Area " + i);
+            dummyList.addElement(new AreaListItem("Area " + i, ""+i));
         }
-        JList<String> areasList = new JList<>(dummyList);
+        JList<AreaListItem> areasList = new JList<>(dummyList);
 
         addAreaListener = new AddAreaListener(areasList);
         return new JScrollPane(areasList);

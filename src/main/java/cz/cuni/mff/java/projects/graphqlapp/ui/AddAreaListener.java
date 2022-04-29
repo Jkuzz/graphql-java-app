@@ -5,27 +5,32 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public final class AddAreaListener implements ActionListener {
-    private final JList<String> areasList;
+    private final JList<AreaListItem> areasList;
     private PopulationPanel populationPanel = null;
 
     /**
      * Create a listener that adds the areas selected form the list to the population panel
      * @param areasList UI list of areas
      */
-    public AddAreaListener(JList<String> areasList) {
+    public AddAreaListener(JList<AreaListItem> areasList) {
         this.areasList = areasList;
     }
 
+    /**
+     * Add area button callback function
+     *
+     * Instructs display panel to add the selected areas to the display
+     * and removes them from the selection list
+     * @param actionEvent swing action event
+     */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         assert populationPanel != null;
-        DefaultListModel<String> areasModel = (DefaultListModel<String>) areasList.getModel();
+        DefaultListModel<AreaListItem> areasModel = (DefaultListModel<AreaListItem>) areasList.getModel();
 
         for(int selectedIndex: areasList.getSelectedIndices()) {
-            JPanel dummyPanel = new JPanel();
-            dummyPanel.add(new JLabel(areasModel.getElementAt(selectedIndex)));
+            populationPanel.addArea(areasModel.elementAt(selectedIndex));
             areasModel.remove(selectedIndex);
-            populationPanel.addArea(dummyPanel);
         }
         areasList.clearSelection();
     }
