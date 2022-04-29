@@ -76,6 +76,15 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>gui</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>cz.cuni.mff.java.projects.graphqlapp.ui.App</mainClass>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>test</id>
                         <goals>
                             <goal>java</goal>

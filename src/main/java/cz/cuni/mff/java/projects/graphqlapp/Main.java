@@ -10,14 +10,8 @@ public class Main {
         GraphQL graphQL = new GraphQLProvider().getGraphQL();
         String query = """
                 {
-                obecById(id: 539210) {
+                krajById(id: 3018) {
                     name
-                    okres {
-                        name
-                    }
-                    kraj {
-                        name
-                    }
                     demographics {
                         year
                         migSaldo
