@@ -2,12 +2,21 @@ package cz.cuni.mff.java.projects.graphqlapp.ui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class AreaPanel {
     JPanel pickerPanel = new JPanel(new GridBagLayout());
     GridBagConstraints gbc = new GridBagConstraints();
     private AddAreaListener addAreaListener;
+    private JList<AreaListItem> areaList;
     public Color bgColor;
+
+
+    public JList<AreaListItem> getAreaList() {
+        return areaList;
+    }
 
     /**
      * Gives access to the listener of the Add Area button, to set target JPanel once it's created
@@ -50,7 +59,7 @@ public class AreaPanel {
         gbc.insets.bottom = 10;
         pickerPanel.add(makeAreaBottomButtons(), gbc);
 
-        pickerPanel.setBackground(new Color(200, 100, 100));
+        pickerPanel.setBackground(bgColor);
         return pickerPanel;
     }
 
@@ -95,10 +104,21 @@ public class AreaPanel {
         for (int i=0; i<=30; i+=1) {
             dummyList.addElement(new AreaListItem("Area " + i, ""+i));
         }
-        JList<AreaListItem> areasList = new JList<>(dummyList);
+        sortAreaListModel(dummyList);
+        areaList = new JList<>(dummyList);
 
-        addAreaListener = new AddAreaListener(areasList);
-        return new JScrollPane(areasList);
+        addAreaListener = new AddAreaListener(areaList);
+        return new JScrollPane(areaList);
+    }
+
+
+    public static void sortAreaListModel(DefaultListModel<AreaListItem> listModel) {
+        ArrayList<AreaListItem> listContents = Collections.list(listModel.elements());
+        listContents.sort(Comparator.comparing(AreaListItem::name));
+        listModel.clear();
+        for(AreaListItem item: listContents) {
+            listModel.addElement(item);
+        }
     }
 
 }

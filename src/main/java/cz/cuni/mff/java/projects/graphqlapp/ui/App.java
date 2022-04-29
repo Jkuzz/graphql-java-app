@@ -36,7 +36,7 @@ public class App {
         gbc.gridx = GridBagConstraints.RELATIVE;
         gbc.insets = new Insets(15, 10, 15, 20);
         gbc.weightx = 0.9;
-        PopulationPanel popPanel = new PopulationPanel();
+        PopulationPanel popPanel = new PopulationPanel(areaPanel.getAreaList());
         JPanel displayPanel = popPanel.makePopDisplay();
         contentPanel.add(displayPanel, gbc);
 
