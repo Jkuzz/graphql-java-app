@@ -85,10 +85,10 @@ public class AreaPanel {
      */
     private JScrollPane makeAreasScrollPane() {
         DefaultListModel<String> dummyList = new DefaultListModel<>();
-        dummyList.add(dummyList.getSize(), "Praha");
-        dummyList.add(dummyList.getSize(), "Zbytek");
+        dummyList.addElement("Praha");
+        dummyList.addElement("Zbytek");
         for (int i=0; i<=30; i+=1) {
-            dummyList.add(dummyList.getSize(), "Area " + i);
+            dummyList.addElement("Area " + i);
         }
         JList<String> areasList = new JList<>(dummyList);
 

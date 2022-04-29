@@ -11,7 +11,7 @@ public class App {
 
         frame.getContentPane().add(createContent());
 
-        frame.setMinimumSize(new Dimension(800, 500));
+        frame.setMinimumSize(new Dimension(1200, 750));
         frame.pack();
         frame.setVisible(true);
     }

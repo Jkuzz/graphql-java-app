@@ -9,7 +9,7 @@ public class PopulationPanel {
 
     public PopulationPanel() {
         gbc.anchor = GridBagConstraints.PAGE_START;
-        gbc.insets = new Insets(3, 20, 3, 20);
+        gbc.insets = new Insets(3, 3, 3, 3);
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1;
         gbc.weighty = 0;
