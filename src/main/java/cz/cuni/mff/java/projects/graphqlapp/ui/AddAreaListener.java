@@ -1,20 +1,18 @@
 package cz.cuni.mff.java.projects.graphqlapp.ui;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
 
 public final class AddAreaListener implements ActionListener {
-    private final JList<AreaListItem> areasList;
     private PopulationPanel populationPanel = null;
+    private final AreaPanel areaPanel;
 
     /**
      * Create a listener that adds the areas selected form the list to the population panel
-     * @param areasList UI list of areas
+     * @param areaPanel AreaPanel to remove from
      */
-    public AddAreaListener(JList<AreaListItem> areasList) {
-        this.areasList = areasList;
+    public AddAreaListener(AreaPanel areaPanel) {
+        this.areaPanel = areaPanel;
     }
 
     /**
@@ -27,24 +25,13 @@ public final class AddAreaListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         assert populationPanel != null;
-        DefaultListModel<AreaListItem> areasModel = (DefaultListModel<AreaListItem>) areasList.getModel();
 
-        ArrayList<Integer> selectedIndices = new ArrayList<>();
-        for(int index: areasList.getSelectedIndices()) {  // For some reason must iterate, other methods don't work
-            selectedIndices.add(index);
+        for(AreaListItem item: areaPanel.getAreaList().getSelectedValuesList()) {
+            populationPanel.addArea(item);
+            areaPanel.removeItem(item);
         }
 
-        for(int selectedIndex: selectedIndices) {
-            populationPanel.addArea(areasModel.elementAt(selectedIndex));
-        }
-
-        // Must remove in reverse order!
-        Collections.reverse(selectedIndices);
-        for(int selectedIndex: selectedIndices) {
-            areasModel.remove(selectedIndex);
-        }
-
-        areasList.clearSelection();
+        areaPanel.getAreaList().clearSelection();
     }
 
     /**

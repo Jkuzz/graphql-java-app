@@ -6,11 +6,11 @@ import java.awt.*;
 public class PopulationPanel {
     final JPanel displayPanel = new JPanel(new GridBagLayout());
     final JPanel selectPanel = makeSelectPanel();
-    final JList<AreaListItem> areaList;
+    private final AreaPanel areaPanel;
     GridBagConstraints gbc = new GridBagConstraints();
 
-    public PopulationPanel(JList<AreaListItem> areaList) {
-        this.areaList = areaList;
+    public PopulationPanel(AreaPanel areaPanel) {
+        this.areaPanel = areaPanel;
 
         displayPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         gbc.anchor = GridBagConstraints.PAGE_START;
@@ -42,11 +42,12 @@ public class PopulationPanel {
         return selectPanel;
     }
 
-    void addArea(AreaListItem areaToAdd) {
-        AreaInfoPane areaPanel = new AreaInfoPane(areaToAdd, areaList);
+    public void addArea(AreaListItem areaToAdd) {
+        assert areaPanel != null;
+        PopulationDisplay popDisplay = new PopulationDisplay(areaToAdd, areaPanel);
 
         gbc.gridx = GridBagConstraints.RELATIVE;
-        displayPanel.add(areaPanel, gbc);
+        displayPanel.add(popDisplay, gbc);
         displayPanel.revalidate();
     }
 }

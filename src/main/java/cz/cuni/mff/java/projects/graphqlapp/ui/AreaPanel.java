@@ -3,20 +3,22 @@ package cz.cuni.mff.java.projects.graphqlapp.ui;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 public class AreaPanel {
     JPanel pickerPanel = new JPanel(new GridBagLayout());
     GridBagConstraints gbc = new GridBagConstraints();
     private AddAreaListener addAreaListener;
+    private String searchFilter = "";
     private JList<AreaListItem> areaList;
+    private ArrayList<AreaListItem> baseListContent = new ArrayList<>();
     public Color bgColor;
 
 
     public JList<AreaListItem> getAreaList() {
         return areaList;
     }
+
 
     /**
      * Gives access to the listener of the Add Area button, to set target JPanel once it's created
@@ -29,6 +31,7 @@ public class AreaPanel {
     public AreaPanel(Color bgCol) {
         bgColor = bgCol;
     }
+
 
     /**
      * Creates a panel that provides the list of available areas to query,
@@ -52,8 +55,9 @@ public class AreaPanel {
         pickerPanel.add(areaNameSearch, gbc);
 
         gbc.weighty = 1;
-
         pickerPanel.add(makeAreasScrollPane(), gbc);
+
+        areaNameSearch.getDocument().addDocumentListener(new SearchChangeListener(this));
 
         gbc.weighty = 0;
         gbc.insets.bottom = 10;
@@ -62,6 +66,7 @@ public class AreaPanel {
         pickerPanel.setBackground(bgColor);
         return pickerPanel;
     }
+
 
     /**
      * Creates a panel containing the area type (codebook) switcher buttons
@@ -100,25 +105,62 @@ public class AreaPanel {
      * @return the scroll pane
      */
     private JScrollPane makeAreasScrollPane() {
-        DefaultListModel<AreaListItem> dummyList = new DefaultListModel<>();
+        ArrayList<AreaListItem> dummyList = new ArrayList<>();
         for (int i=0; i<=30; i+=1) {
-            dummyList.addElement(new AreaListItem("Area " + i, ""+i));
+            dummyList.add(new AreaListItem("Area " + i, ""+i));
         }
-        sortAreaListModel(dummyList);
-        areaList = new JList<>(dummyList);
+        areaList = new JList<>();
 
-        addAreaListener = new AddAreaListener(areaList);
+        baseListContent = dummyList;
+        setSearchFilter("");
+
+        addAreaListener = new AddAreaListener(this);
         return new JScrollPane(areaList);
     }
 
 
-    public static void sortAreaListModel(DefaultListModel<AreaListItem> listModel) {
-        ArrayList<AreaListItem> listContents = Collections.list(listModel.elements());
-        listContents.sort(Comparator.comparing(AreaListItem::name));
-        listModel.clear();
-        for(AreaListItem item: listContents) {
-            listModel.addElement(item);
+    /**
+     * Iterates the base AreaListItem's, sorts them alphabetically,
+     * filters them according to searchFilter and updates the area list model to display them.
+     */
+    public void processAreaListModel() {
+        System.out.println(searchFilter);
+        baseListContent.sort(Comparator.comparing(AreaListItem::name));
+
+        DefaultListModel<AreaListItem> processedModel = new DefaultListModel<>();
+        for(AreaListItem item: baseListContent) {
+            if(item.name().startsWith(searchFilter)) {
+                processedModel.addElement(item);
+            }
         }
+        areaList.setModel(processedModel);
+    }
+
+    /**
+     * Change the search filter and update view
+     * @param filter new filter
+     */
+    public void setSearchFilter(String filter) {
+        this.searchFilter = filter;
+        processAreaListModel();
+    }
+
+    /**
+     * Remove list item from base items and update view
+     * @param item to remove
+     */
+    public void removeItem(AreaListItem item) {
+        baseListContent.remove(item);
+        processAreaListModel();
+    }
+
+    /**
+     * Add list item to base items and update view
+     * @param item to add
+     */
+    public void addItem(AreaListItem item) {
+        baseListContent.add(item);
+        processAreaListModel();
     }
 
 }
