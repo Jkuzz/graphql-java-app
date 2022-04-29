@@ -3,6 +3,7 @@ package cz.cuni.mff.java.projects.graphqlapp.ui;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.*;
 
 public final class AddAreaListener implements ActionListener {
     private final JList<AreaListItem> areasList;
@@ -28,10 +29,21 @@ public final class AddAreaListener implements ActionListener {
         assert populationPanel != null;
         DefaultListModel<AreaListItem> areasModel = (DefaultListModel<AreaListItem>) areasList.getModel();
 
-        for(int selectedIndex: areasList.getSelectedIndices()) {
+        ArrayList<Integer> selectedIndices = new ArrayList<>();
+        for(int index: areasList.getSelectedIndices()) {  // For some reason must iterate, other methods don't work
+            selectedIndices.add(index);
+        }
+
+        for(int selectedIndex: selectedIndices) {
             populationPanel.addArea(areasModel.elementAt(selectedIndex));
+        }
+
+        // Must remove in reverse order!
+        Collections.reverse(selectedIndices);
+        for(int selectedIndex: selectedIndices) {
             areasModel.remove(selectedIndex);
         }
+
         areasList.clearSelection();
     }
 
