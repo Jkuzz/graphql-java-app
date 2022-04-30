@@ -19,6 +19,7 @@ public class App {
     private static JPanel createContent() {
         JPanel contentPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
+        contentPanel.setBackground(new Color(140, 140, 140));
 
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(15, 20, 15, 10);

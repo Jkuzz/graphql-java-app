@@ -105,12 +105,10 @@ public class AreaPanel {
      * @return the scroll pane
      */
     private JScrollPane makeAreasScrollPane() {
-        ArrayList<AreaListItem> dummyList = new ArrayList<>();
-        for (int i=0; i<=30; i+=1) {
-            dummyList.add(new AreaListItem("Area " + i, ""+i));
-        }
-        areaList = new JList<>();
+        AreaLoader areaLoader = new AreaLoader();
+        ArrayList<AreaListItem> dummyList = areaLoader.loadArea(AreaLoader.AreaType.KRAJE);
 
+        areaList = new JList<>();
         baseListContent = dummyList;
         setSearchFilter("");
 
