@@ -11,7 +11,8 @@ public class AreaPanel {
     private AddAreaListener addAreaListener;
     private String searchFilter = "";
     private JList<AreaListItem> areaList;
-    private ArrayList<AreaListItem> baseListContent = new ArrayList<>();
+    private final AreaListManager areaListManager = new AreaListManager();
+    private AreaType currentAreaType = AreaType.KRAJE;
     public Color bgColor;
 
 
@@ -77,6 +78,18 @@ public class AreaPanel {
         JButton krajeButton = new JButton("Kraje");
         JButton okresyButton = new JButton("Okresy");
         JButton obceButton = new JButton("Obce");
+        krajeButton.addActionListener(actionEvent -> {
+            currentAreaType = AreaType.KRAJE;
+            processAreaListModel();
+        });
+        okresyButton.addActionListener(actionEvent -> {
+            currentAreaType = AreaType.OKRESY;
+            processAreaListModel();
+        });
+        obceButton.addActionListener(actionEvent -> {
+            currentAreaType = AreaType.OBCE;
+            processAreaListModel();
+        });
         btnPanel.add(krajeButton);
         btnPanel.add(okresyButton);
         btnPanel.add(obceButton);
@@ -105,11 +118,7 @@ public class AreaPanel {
      * @return the scroll pane
      */
     private JScrollPane makeAreasScrollPane() {
-        AreaLoader areaLoader = new AreaLoader();
-        ArrayList<AreaListItem> dummyList = areaLoader.loadArea(AreaLoader.AreaType.KRAJE);
-
         areaList = new JList<>();
-        baseListContent = dummyList;
         setSearchFilter("");
 
         addAreaListener = new AddAreaListener(this);
@@ -122,11 +131,11 @@ public class AreaPanel {
      * filters them according to searchFilter and updates the area list model to display them.
      */
     public void processAreaListModel() {
-        System.out.println(searchFilter);
-        baseListContent.sort(Comparator.comparing(AreaListItem::name));
+        ArrayList<AreaListItem> listToDisplay = areaListManager.getListByType(currentAreaType);
+        listToDisplay.sort(Comparator.comparing(AreaListItem::name));
 
         DefaultListModel<AreaListItem> processedModel = new DefaultListModel<>();
-        for(AreaListItem item: baseListContent) {
+        for(AreaListItem item: listToDisplay) {
             if(item.name().startsWith(searchFilter)) {
                 processedModel.addElement(item);
             }
@@ -148,7 +157,7 @@ public class AreaPanel {
      * @param item to remove
      */
     public void removeItem(AreaListItem item) {
-        baseListContent.remove(item);
+        areaListManager.remove(item);
         processAreaListModel();
     }
 
@@ -157,7 +166,7 @@ public class AreaPanel {
      * @param item to add
      */
     public void addItem(AreaListItem item) {
-        baseListContent.add(item);
+        areaListManager.add(item);
         processAreaListModel();
     }
 
