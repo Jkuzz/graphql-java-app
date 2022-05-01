@@ -1,5 +1,7 @@
 package cz.cuni.mff.java.projects.graphqlapp.ui;
 
+import graphql.GraphQL;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -11,9 +13,9 @@ public class AreaPanel {
     private AddAreaListener addAreaListener;
     private String searchFilter = "";
     private JList<AreaListItem> areaList;
-    private final AreaListManager areaListManager = new AreaListManager();
+    private final AreaListManager areaListManager;
+    private final Color bgColor;
     private AreaType currentAreaType = AreaType.KRAJE;
-    public Color bgColor;
 
 
     public JList<AreaListItem> getAreaList() {
@@ -29,7 +31,8 @@ public class AreaPanel {
         return addAreaListener;
     }
 
-    public AreaPanel(Color bgCol) {
+    public AreaPanel(GraphQL graphQL, Color bgCol) {
+        areaListManager = new AreaListManager(graphQL);
         bgColor = bgCol;
     }
 
@@ -80,15 +83,15 @@ public class AreaPanel {
         JButton obceButton = new JButton("Obce");
         krajeButton.addActionListener(actionEvent -> {
             currentAreaType = AreaType.KRAJE;
-            processAreaListModel();
+            updateListModel();
         });
         okresyButton.addActionListener(actionEvent -> {
             currentAreaType = AreaType.OKRESY;
-            processAreaListModel();
+            updateListModel();
         });
         obceButton.addActionListener(actionEvent -> {
             currentAreaType = AreaType.OBCE;
-            processAreaListModel();
+            updateListModel();
         });
         btnPanel.add(krajeButton);
         btnPanel.add(okresyButton);
@@ -127,16 +130,16 @@ public class AreaPanel {
 
 
     /**
-     * Iterates the base AreaListItem's, sorts them alphabetically,
+     * Iterates the currently selected area type's AreaListItems, sorts them alphabetically,
      * filters them according to searchFilter and updates the area list model to display them.
      */
-    public void processAreaListModel() {
+    public void updateListModel() {
         ArrayList<AreaListItem> listToDisplay = areaListManager.getListByType(currentAreaType);
         listToDisplay.sort(Comparator.comparing(AreaListItem::name));
 
         DefaultListModel<AreaListItem> processedModel = new DefaultListModel<>();
         for(AreaListItem item: listToDisplay) {
-            if(item.name().startsWith(searchFilter)) {
+            if(item.name().contains(searchFilter)) {
                 processedModel.addElement(item);
             }
         }
@@ -149,7 +152,7 @@ public class AreaPanel {
      */
     public void setSearchFilter(String filter) {
         this.searchFilter = filter;
-        processAreaListModel();
+        updateListModel();
     }
 
     /**
@@ -158,7 +161,7 @@ public class AreaPanel {
      */
     public void removeItem(AreaListItem item) {
         areaListManager.remove(item);
-        processAreaListModel();
+        updateListModel();
     }
 
     /**
@@ -167,7 +170,7 @@ public class AreaPanel {
      */
     public void addItem(AreaListItem item) {
         areaListManager.add(item);
-        processAreaListModel();
+        updateListModel();
     }
 
 }

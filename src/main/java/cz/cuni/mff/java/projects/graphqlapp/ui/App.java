@@ -1,5 +1,8 @@
 package cz.cuni.mff.java.projects.graphqlapp.ui;
 
+import cz.cuni.mff.java.projects.graphqlapp.provider.GraphQLProvider;
+import graphql.GraphQL;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -20,6 +23,7 @@ public class App {
         JPanel contentPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         contentPanel.setBackground(new Color(140, 140, 140));
+        GraphQL graphQL = new GraphQLProvider().getGraphQL();
 
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(15, 20, 15, 10);
@@ -27,16 +31,16 @@ public class App {
         gbc.ipady = 20;
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.weightx = 0.1;
+        gbc.weightx = 0;
         gbc.weighty = 1;
 
-        AreaPanel areaPanel = new AreaPanel(new Color(200, 100, 100));
+        AreaPanel areaPanel = new AreaPanel(graphQL, new Color(200, 100, 100));
         JPanel pickerPanel = areaPanel.makeAreaPanel();
         contentPanel.add(pickerPanel, gbc);
 
         gbc.gridx = GridBagConstraints.RELATIVE;
         gbc.insets = new Insets(15, 10, 15, 20);
-        gbc.weightx = 0.9;
+        gbc.weightx = 1;
         PopulationPanel popPanel = new PopulationPanel(areaPanel);
         JPanel displayPanel = popPanel.makePopDisplay();
         contentPanel.add(displayPanel, gbc);

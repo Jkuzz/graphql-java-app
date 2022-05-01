@@ -8,6 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
         GraphQL graphQL = new GraphQLProvider().getGraphQL();
+        System.out.println(graphQL.getGraphQLSchema().getType("Kraj"));
         String query = """
                 {
                 krajById(id: 3018) {

@@ -1,5 +1,7 @@
 package cz.cuni.mff.java.projects.graphqlapp.ui;
 
+import graphql.GraphQL;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,9 +17,10 @@ public class AreaListManager {
      * Uses AreaLoader to load known areas items from database and places them in map storage.
      * These will be used in AreaPanel when switching between area types.
      * Allows for easy adding and removing of items from the store.
+     * @param graphQL database instance
      */
-    public AreaListManager() {
-        AreaLoader areaLoader = new AreaLoader();
+    public AreaListManager(GraphQL graphQL) {
+        AreaLoader areaLoader = new AreaLoader(graphQL);
         for(AreaType type: AreaType.values()) {
             areaLists.put(type, areaLoader.loadArea(type));
         }
