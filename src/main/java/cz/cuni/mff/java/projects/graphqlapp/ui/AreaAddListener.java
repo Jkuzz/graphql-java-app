@@ -3,7 +3,7 @@ package cz.cuni.mff.java.projects.graphqlapp.ui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public final class AddAreaListener implements ActionListener {
+public final class AreaAddListener implements ActionListener {
     private PopulationPanel populationPanel = null;
     private final AreaPanel areaPanel;
 
@@ -11,7 +11,7 @@ public final class AddAreaListener implements ActionListener {
      * Create a listener that adds the areas selected form the list to the population panel
      * @param areaPanel AreaPanel to remove from
      */
-    public AddAreaListener(AreaPanel areaPanel) {
+    public AreaAddListener(AreaPanel areaPanel) {
         this.areaPanel = areaPanel;
     }
 

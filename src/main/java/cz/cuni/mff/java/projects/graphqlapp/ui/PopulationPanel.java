@@ -4,16 +4,21 @@ import graphql.GraphQL;
 import graphql.schema.GraphQLFieldDefinition;
 import graphql.schema.GraphQLSchemaElement;
 import graphql.schema.GraphQLType;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Map;
 
 public class PopulationPanel extends JPanel {
     final JPanel selectPanel;
     private final AreaPanel areaPanel;
     private final GraphQL graphQL;
     private final Color BG_COLOR_LIGHT = new Color(130, 130, 210);
+    private final HashMap<String, Boolean> selectedFields = new HashMap<>();
     GridBagConstraints gbc = new GridBagConstraints();
 
     public PopulationPanel(AreaPanel areaPanel, GraphQL graphQL) {
@@ -74,11 +79,16 @@ public class PopulationPanel extends JPanel {
 
         for(GraphQLSchemaElement element: schemaElements) {
             GraphQLFieldDefinition fieldDef = (GraphQLFieldDefinition) element;
+            if(fieldDef.getName().equals("year")) {
+                continue;  // Year is automatically queried for
+            }
             JCheckBox fieldCheckBox = new JCheckBox(fieldDef.getName());
+            selectedFields.put(fieldDef.getName(), false);
             fieldCheckBox.setOpaque(false);
             checkPanel.add(fieldCheckBox);
         }
 
+        this.selectedFields.put("popMean", true); // TODO: Implement field selecting
 
         checkPanel.setBackground(BG_COLOR_LIGHT);
         return checkPanel;
@@ -86,10 +96,20 @@ public class PopulationPanel extends JPanel {
 
     public void addArea(AreaListItem areaToAdd) {
         assert areaPanel != null;
-        PopulationCard popCard = new PopulationCard(areaToAdd, areaPanel, BG_COLOR_LIGHT);
+        PopulationCard popCard = new PopulationCard(areaToAdd, areaPanel, BG_COLOR_LIGHT, selectedFieldsToArray(), graphQL);
 
         gbc.gridx = GridBagConstraints.RELATIVE;
         this.add(popCard, gbc);
         this.revalidate();
+    }
+
+    private ArrayList<String> selectedFieldsToArray() {
+        ArrayList<String> selected = new ArrayList<>();
+        for(Map.Entry<String, Boolean> e: selectedFields.entrySet()) {
+            if(e.getValue()) {
+                selected.add(e.getKey());
+            }
+        }
+        return selected;
     }
 }

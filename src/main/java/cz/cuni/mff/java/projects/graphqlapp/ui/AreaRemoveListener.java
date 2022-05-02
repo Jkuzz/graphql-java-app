@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public record RemoveAreaListener(
+public record AreaRemoveListener(
         AreaPanel areaPanel) implements ActionListener {
 
     @Override

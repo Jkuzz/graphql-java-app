@@ -10,7 +10,7 @@ import java.util.Comparator;
 public class AreaPanel {
     JPanel pickerPanel = new JPanel(new GridBagLayout());
     GridBagConstraints gbc = new GridBagConstraints();
-    private AddAreaListener addAreaListener;
+    private AreaAddListener areaAddListener;
     private String searchFilter = "";
     private JList<AreaListItem> areaList;
     private final AreaListManager areaListManager;
@@ -27,8 +27,8 @@ public class AreaPanel {
      * Gives access to the listener of the Add Area button, to set target JPanel once it's created
      * @return the add area listener
      */
-    public AddAreaListener getAddAreaListener() {
-        return addAreaListener;
+    public AreaAddListener getAddAreaListener() {
+        return areaAddListener;
     }
 
     public AreaPanel(GraphQL graphQL, Color bgCol) {
@@ -109,7 +109,7 @@ public class AreaPanel {
     private JPanel makeAreaBottomButtons() {
         JPanel btnPanel = new JPanel();
         JButton addButton = new JButton("Add");
-        addButton.addActionListener(addAreaListener);
+        addButton.addActionListener(areaAddListener);
         btnPanel.add(addButton);
         btnPanel.setBackground(bgColor);
         return btnPanel;
@@ -124,7 +124,7 @@ public class AreaPanel {
         areaList = new JList<>();
         setSearchFilter("");
 
-        addAreaListener = new AddAreaListener(this);
+        areaAddListener = new AreaAddListener(this);
         return new JScrollPane(areaList);
     }
 
