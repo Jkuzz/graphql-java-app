@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class PopulationDisplay extends JPanel {
 
-    public PopulationDisplay(AreaListItem source, AreaPanel areaPanel) {
+    public PopulationDisplay(AreaListItem source, AreaPanel areaPanel, Color bgColor) {
         this.source = source;
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.add(new JLabel(source.name()));
@@ -15,7 +15,7 @@ public class PopulationDisplay extends JPanel {
         removeButton.addActionListener(new RemoveAreaListener(areaPanel));
         this.add(removeButton);
 
-        this.setBackground(new Color(120, 120, 210));
+        this.setBackground(bgColor);
     }
 
     public AreaListItem getSource() {
