@@ -10,7 +10,7 @@ public record RemoveAreaListener(
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         JButton sourceButton = (JButton) actionEvent.getSource();
-        PopulationDisplay areaInfo = (PopulationDisplay) sourceButton.getParent();
+        PopulationCard areaInfo = (PopulationCard) sourceButton.getParent();
         JPanel parentPanel = (JPanel) areaInfo.getParent();
         parentPanel.remove(areaInfo);
         parentPanel.revalidate();

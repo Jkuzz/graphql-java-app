@@ -61,7 +61,7 @@ public class PopulationPanel extends JPanel {
         gbc.gridwidth = 1;
         gbc.weightx = 0;
         gbc.weighty = 0;
-        selectPanel.add(new JButton("Test"), gbc);
+        selectPanel.add(new JButton("Select"), gbc);
         selectPanel.setBackground(BG_COLOR_LIGHT);
         return selectPanel;
     }
@@ -86,10 +86,10 @@ public class PopulationPanel extends JPanel {
 
     public void addArea(AreaListItem areaToAdd) {
         assert areaPanel != null;
-        PopulationDisplay popDisplay = new PopulationDisplay(areaToAdd, areaPanel, BG_COLOR_LIGHT);
+        PopulationCard popCard = new PopulationCard(areaToAdd, areaPanel, BG_COLOR_LIGHT);
 
         gbc.gridx = GridBagConstraints.RELATIVE;
-        this.add(popDisplay, gbc);
+        this.add(popCard, gbc);
         this.revalidate();
     }
 }

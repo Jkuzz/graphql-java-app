@@ -3,9 +3,9 @@ package cz.cuni.mff.java.projects.graphqlapp.ui;
 import javax.swing.*;
 import java.awt.*;
 
-public class PopulationDisplay extends JPanel {
+public class PopulationCard extends JPanel {
 
-    public PopulationDisplay(AreaListItem source, AreaPanel areaPanel, Color bgColor) {
+    public PopulationCard(AreaListItem source, AreaPanel areaPanel, Color bgColor) {
         this.source = source;
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.add(new JLabel(source.name()));
