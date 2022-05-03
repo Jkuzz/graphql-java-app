@@ -88,6 +88,13 @@ public class PopulationPanel extends JPanel {
             checkPanel.add(fieldCheckBox);
         }
 
+        this.selectedFields.put("deaths", true); // TODO: Implement field selecting
+        this.selectedFields.put("immigrations", true); // TODO: Implement field selecting
+        this.selectedFields.put("emigrations", true); // TODO: Implement field selecting
+        this.selectedFields.put("natGrowth", true); // TODO: Implement field selecting
+        this.selectedFields.put("totalGrowth", true); // TODO: Implement field selecting
+        this.selectedFields.put("births", true); // TODO: Implement field selecting
+        this.selectedFields.put("migSaldo", true); // TODO: Implement field selecting
         this.selectedFields.put("popMean", true); // TODO: Implement field selecting
 
         checkPanel.setBackground(BG_COLOR_LIGHT);
