@@ -5,20 +5,20 @@ import graphql.schema.GraphQLFieldDefinition;
 import graphql.schema.GraphQLSchemaElement;
 import graphql.schema.GraphQLType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Map;
+import java.util.List;
 
 public class PopulationPanel extends JPanel {
     final JPanel selectPanel;
     private final AreaPanel areaPanel;
     private final GraphQL graphQL;
-    private final Color BG_COLOR_LIGHT = new Color(130, 130, 210);
+    private final Color BG_COLOR = new Color(100, 100, 200);
     private final HashMap<String, Boolean> selectedFields = new HashMap<>();
+    private final ArrayList<JCheckBox> fieldCheckBoxes = new ArrayList<>();
+    private final ArrayList<PopulationCard> populationCards = new ArrayList<>();
     GridBagConstraints gbc = new GridBagConstraints();
 
     public PopulationPanel(AreaPanel areaPanel, GraphQL graphQL) {
@@ -36,7 +36,6 @@ public class PopulationPanel extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
-
         this.add(selectPanel, gbc);
 
         gbc.fill = GridBagConstraints.BOTH;
@@ -44,9 +43,15 @@ public class PopulationPanel extends JPanel {
         gbc.gridwidth = 1;
         gbc.gridy = 1;
         gbc.weighty = 1;
-        this.setBackground(new Color(100, 100, 200));
+        this.setBackground(BG_COLOR);
     }
 
+    /**
+     * Creates the field selection panel that includes CheckBoxes for each demographic field that is
+     * provided by the GraphQL database schema. Includes confirm button.
+     *
+     * @return field selection panel
+     */
     private JPanel makeSelectPanel() {
         JPanel selectPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints(
@@ -66,11 +71,18 @@ public class PopulationPanel extends JPanel {
         gbc.gridwidth = 1;
         gbc.weightx = 0;
         gbc.weighty = 0;
-        selectPanel.add(new JButton("Select"), gbc);
-        selectPanel.setBackground(BG_COLOR_LIGHT);
+
+        JButton fieldsSelectButton = new JButton("Select");
+        fieldsSelectButton.addActionListener(new FieldsChosenListener(this));
+        selectPanel.add(fieldsSelectButton, gbc);
+        selectPanel.setBackground(BG_COLOR.brighter());
         return selectPanel;
     }
 
+    /**
+     * Create the part of the SelectPanel that includes a JCheckBox for each field in the schema.
+     * @return panel with the JCheckBoxes
+     */
     private JPanel makeCheckboxPanel() {
         GraphQLType demSchema = graphQL.getGraphQLSchema().getType("Demographics");
         assert demSchema != null;
@@ -85,31 +97,55 @@ public class PopulationPanel extends JPanel {
             JCheckBox fieldCheckBox = new JCheckBox(fieldDef.getName());
             selectedFields.put(fieldDef.getName(), false);
             fieldCheckBox.setOpaque(false);
+            fieldCheckBoxes.add(fieldCheckBox);
             checkPanel.add(fieldCheckBox);
         }
 
-        this.selectedFields.put("deaths", true); // TODO: Implement field selecting
-        this.selectedFields.put("immigrations", true); // TODO: Implement field selecting
-        this.selectedFields.put("emigrations", true); // TODO: Implement field selecting
-        this.selectedFields.put("natGrowth", true); // TODO: Implement field selecting
-        this.selectedFields.put("totalGrowth", true); // TODO: Implement field selecting
-        this.selectedFields.put("births", true); // TODO: Implement field selecting
-        this.selectedFields.put("migSaldo", true); // TODO: Implement field selecting
-        this.selectedFields.put("popMean", true); // TODO: Implement field selecting
-
-        checkPanel.setBackground(BG_COLOR_LIGHT);
+        checkPanel.setBackground(BG_COLOR.brighter());
         return checkPanel;
     }
 
+    /**
+     * Create a PopulationCard for the provided AreaListItem and add it to the population view.
+     * Queries database for population fields.
+     * @param areaToAdd to add
+     */
     public void addArea(AreaListItem areaToAdd) {
         assert areaPanel != null;
-        PopulationCard popCard = new PopulationCard(areaToAdd, areaPanel, BG_COLOR_LIGHT, selectedFieldsToArray(), graphQL);
+        PopulationCard popCard = new PopulationCard(areaToAdd, areaPanel, BG_COLOR.brighter(), selectedFieldsToArray(), graphQL);
+        populationCards.add(popCard);
 
         gbc.gridx = GridBagConstraints.RELATIVE;
         this.add(popCard, gbc);
         this.revalidate();
     }
 
+    /**
+     * Remove the chosen PopulationCard from the panel and refresh
+     * @param populationCard to remove
+     */
+    public void removeArea(PopulationCard populationCard) {
+        this.remove(populationCard);
+        populationCard.remove(populationCard);
+        this.revalidate();
+    }
+
+    /**
+     * Update all existing yearCards to show the demographic fields which are currently selected.
+     */
+    public void updateSelectedFields() {
+        for(JCheckBox checkBox: fieldCheckBoxes) {
+            selectedFields.put(checkBox.getText(), checkBox.isSelected());
+        }
+        for(PopulationCard populationCard: populationCards) {
+            populationCard.updateYearDems(selectedFieldsToArray());
+        }
+    }
+
+    /**
+     * Transforms the selected fields map to array including those with true value.
+     * @return selected fields
+     */
     private ArrayList<String> selectedFieldsToArray() {
         ArrayList<String> selected = new ArrayList<>();
         for(Map.Entry<String, Boolean> e: selectedFields.entrySet()) {

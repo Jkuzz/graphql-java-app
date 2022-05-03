@@ -11,9 +11,8 @@ public record AreaRemoveListener(
     public void actionPerformed(ActionEvent actionEvent) {
         JButton sourceButton = (JButton) actionEvent.getSource();
         PopulationCard areaInfo = (PopulationCard) sourceButton.getParent();
-        JPanel parentPanel = (JPanel) areaInfo.getParent();
-        parentPanel.remove(areaInfo);
-        parentPanel.revalidate();
+        PopulationPanel parentPanel = (PopulationPanel) areaInfo.getParent();
+        parentPanel.removeArea(areaInfo);
 
         areaPanel.addItem(areaInfo.getSource());
     }

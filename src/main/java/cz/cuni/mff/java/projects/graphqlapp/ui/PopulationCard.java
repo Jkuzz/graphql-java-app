@@ -13,6 +13,10 @@ public class PopulationCard extends JPanel {
 
     private final AreaListItem source;
     private final GraphQL graphQL;
+    private final Color bgColor;
+
+    private final JScrollPane demsScrollPane;
+    private JPanel yearDemsPanel;
 
     /**
      * Creates a JPanel card displaying selected information about the provided region
@@ -25,6 +29,7 @@ public class PopulationCard extends JPanel {
      */
     public PopulationCard(AreaListItem source, AreaPanel areaPanel, Color bgColor,
                           ArrayList<String> selectedFields, GraphQL graphQL) {
+        this.bgColor = bgColor;
         this.graphQL = graphQL;
         this.source = source;
         this.setLayout(new GridBagLayout());
@@ -41,14 +46,9 @@ public class PopulationCard extends JPanel {
         this.add(new JLabel(source.name()), gbc);
         this.add(new JLabel("ID: " + source.id()), gbc);
 
-        ArrayList<LinkedHashMap<String, Integer>> queryDems = queryForFields(selectedFields);
-        JPanel scrollViewportPanel = new JPanel(new GridBagLayout());
-        for(LinkedHashMap<String, Integer> demYear: queryDems) {
-            makeYearDemsPanel(demYear, scrollViewportPanel, gbc);
-        }
-        scrollViewportPanel.setBackground(bgColor.brighter());
-        JScrollPane demsScrollPane = new JScrollPane(scrollViewportPanel,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        demsScrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        updateYearDems(selectedFields);
         demsScrollPane.getVerticalScrollBar().setUnitIncrement(16);  // Increase scrollBar sensitivity
 
         // This will stretch dems scroll pane across the card
@@ -67,23 +67,45 @@ public class PopulationCard extends JPanel {
     }
 
     /**
+     * Updates the demographics JScrollPane to include only the schema fields provided.
+     * Re-Queries the GraphQL Database for all requested fields and creates new Viewport JPanel for them.
+     * @param selectedFields list of fields from schema to query
+     */
+    public void updateYearDems(ArrayList<String> selectedFields) {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = GridBagConstraints.RELATIVE;
+
+        ArrayList<LinkedHashMap<String, Integer>> queryDems = queryForFields(selectedFields);
+        yearDemsPanel = new JPanel(new GridBagLayout());
+        yearDemsPanel.setBackground(bgColor.brighter());
+
+        for(LinkedHashMap<String, Integer> demYear: queryDems) {
+            makeYearDems(demYear, gbc);
+        }
+        demsScrollPane.setViewportView(yearDemsPanel);
+    }
+
+    /**
      * Processes demographic info for one year and inserts it into the provided JPanel.
      * Use this to display per-year demographic info to user.
      * @param demYear Map of info fields to display. !Must include "year"!
-     * @param scrollPanePanel panel to insert labels into
      * @param gbc GridBagConstraints used for inserting to scrollPanePanel
      */
-    private void makeYearDemsPanel(LinkedHashMap<String, Integer> demYear, JPanel scrollPanePanel, GridBagConstraints gbc) {
+    private void makeYearDems(LinkedHashMap<String, Integer> demYear, GridBagConstraints gbc) {
         JLabel yearLabel = new JLabel(demYear.get("year").toString());
         yearLabel.setFont(new Font(yearLabel.getFont().getName(), Font.BOLD, 16));
         yearLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        scrollPanePanel.add(yearLabel, gbc);
+        gbc.insets = new Insets(10, 0, 0, 0);
+        yearDemsPanel.add(yearLabel, gbc);
+        gbc.insets = new Insets(0, 0, 0, 0);
         demYear.remove("year");
 
         for(Map.Entry<String, Integer> yearField: demYear.entrySet()) {
             String labelText = yearField.getKey() + ": " + yearField.getValue();
-            scrollPanePanel.add(new JLabel(labelText), gbc);
+            yearDemsPanel.add(new JLabel(labelText), gbc);
         }
     }
 
