@@ -73,7 +73,7 @@ public class PopulationPanel extends JPanel {
         gbc.weighty = 0;
 
         JButton fieldsSelectButton = new JButton("Select");
-        fieldsSelectButton.addActionListener(new FieldsChosenListener(this));
+        fieldsSelectButton.addActionListener(__ -> updateSelectedFields());
         selectPanel.add(fieldsSelectButton, gbc);
         selectPanel.setBackground(BG_COLOR.brighter());
         return selectPanel;

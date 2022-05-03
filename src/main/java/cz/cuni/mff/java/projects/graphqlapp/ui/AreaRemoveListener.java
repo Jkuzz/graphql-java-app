@@ -4,6 +4,10 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Listener for the PopulationCards' remove button. Handles removing the area card
+ * as well as returning it back to the area choice list.
+ */
 public record AreaRemoveListener(
         AreaPanel areaPanel) implements ActionListener {
 
@@ -13,6 +17,7 @@ public record AreaRemoveListener(
         PopulationCard areaInfo = (PopulationCard) sourceButton.getParent();
         PopulationPanel parentPanel = (PopulationPanel) areaInfo.getParent();
         parentPanel.removeArea(areaInfo);
+        parentPanel.getParent().revalidate();
 
         areaPanel.addItem(areaInfo.getSource());
     }

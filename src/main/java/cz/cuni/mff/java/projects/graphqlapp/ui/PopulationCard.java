@@ -122,11 +122,14 @@ public class PopulationCard extends JPanel {
             return new ArrayList<>();
         }
         StringBuilder queryBuilder = new StringBuilder("{");
+        String queryType;
         switch (source.areaType()) {
-            case OBCE -> queryBuilder.append("obecById(id: ");
-            case OKRESY -> queryBuilder.append("okresById(id: ");
-            case KRAJE -> queryBuilder.append("krajById(id: ");
+            case OBCE -> queryType = "obecById";
+            case OKRESY -> queryType = "okresById";
+            case KRAJE -> queryType = "krajById";
+            default -> queryType = "";  // Mustn't happen
         }
+        queryBuilder.append(queryType).append("(id: ");
         queryBuilder.append(source.id()).append("){ demographics { year ");
         for(String field: selectedFields) {
             queryBuilder.append(field).append(' ');
@@ -138,9 +141,9 @@ public class PopulationCard extends JPanel {
             System.out.println("Error occurred during query.");
         }
         if (response.getData() != null) {
-            // This is disgusting, I know, but I don't know how else to retrieve the data
+            // This is disgusting, I know, but I don't know how else to retrieve the data from the ExecutionResult
             var dems = (LinkedHashMap<String, LinkedHashMap<String,ArrayList<LinkedHashMap<String, Integer>>>>)response.getData();
-            return dems.get("krajById").get("demographics");
+            return dems.get(queryType).get("demographics");
         }
         return new ArrayList<>();
     }
