@@ -13,12 +13,17 @@ mvn compile
 ```
 run using maven
 ```
-mvn exec:java
+mvn exec:java@cmd
 ```
 to use options with maven, use `-Dexec.args="..."`.
 
+to use GUI Version, run using
+```
+mvn exec:java@gui
+```
 
-## Use
+
+## CMD Use
 Running the command line app will read the data from the disc and read a query from the standard input.
 It will then execute the query on the GraphQL endpoint and print the result. For more advanced use, use options.
 
@@ -29,6 +34,13 @@ see [pipe-query.sh](./pipe-query.sh).
 
 `-c` will run continuously, allowing you to enter multiple queries successively and get query results after each one. When paired with `-f`, will 
 continuously read from pipe. Otherwise, will read from stdin.
+
+## GUI Use
+The GUI access to the GraphQL store provides a more user-friendly access to a subset of the information available in the endpoint.
+The left part allows the user to select the available areas and add them to the view on the right. The top right checkbox configures
+which population fields area queried for using GraphQL and shown in the view.
+
+Displays demographics from all years that are availible in `src/main/resources/`, to display more, place the coresponding data there.
 
 
 ## Data
