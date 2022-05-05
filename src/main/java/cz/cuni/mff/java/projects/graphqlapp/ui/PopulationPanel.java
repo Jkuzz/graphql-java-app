@@ -1,6 +1,7 @@
 package cz.cuni.mff.java.projects.graphqlapp.ui;
 
 import graphql.GraphQL;
+import graphql.com.google.common.collect.ImmutableMap;
 import graphql.schema.GraphQLFieldDefinition;
 import graphql.schema.GraphQLSchemaElement;
 import graphql.schema.GraphQLType;
@@ -16,6 +17,11 @@ public class PopulationPanel extends JPanel {
     private final AreaPanel areaPanel;
     private final GraphQL graphQL;
     private final Color BG_COLOR = new Color(100, 100, 200);
+    private final Map<AreaType, Color> PopCardColors = ImmutableMap.of(
+            AreaType.KRAJE, new Color(130, 130, 190),
+            AreaType.OKRESY, new Color(150, 100, 200),
+            AreaType.OBCE, new Color(200, 100, 200)
+    );
     private final HashMap<String, Boolean> selectedFields = new HashMap<>();
     private final ArrayList<JCheckBox> fieldCheckBoxes = new ArrayList<>();
     private final ArrayList<PopulationCard> populationCards = new ArrayList<>();
@@ -112,7 +118,9 @@ public class PopulationPanel extends JPanel {
      */
     public void addArea(AreaListItem areaToAdd) {
         assert areaPanel != null;
-        PopulationCard popCard = new PopulationCard(areaToAdd, areaPanel, BG_COLOR.brighter(), selectedFieldsToArray(), graphQL);
+        PopulationCard popCard = new PopulationCard(
+                areaToAdd, areaPanel, PopCardColors.get(areaToAdd.areaType()), selectedFieldsToArray(), graphQL
+        );
         populationCards.add(popCard);
 
         gbc.gridx = GridBagConstraints.RELATIVE;

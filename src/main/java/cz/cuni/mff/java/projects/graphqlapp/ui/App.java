@@ -22,7 +22,7 @@ public class App {
     private static JPanel createContent() {
         JPanel contentPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        contentPanel.setBackground(new Color(140, 140, 140));
+        contentPanel.setBackground(new Color(60, 60, 60));
         GraphQL graphQL = new GraphQLProvider().getGraphQL();
 
         gbc.fill = GridBagConstraints.BOTH;
@@ -34,7 +34,7 @@ public class App {
         gbc.weightx = 0;
         gbc.weighty = 1;
 
-        AreaPanel areaPanel = new AreaPanel(graphQL, new Color(200, 100, 100));
+        AreaPanel areaPanel = new AreaPanel(graphQL, new Color(40, 40, 150));
         JPanel pickerPanel = areaPanel.makeAreaPanel();
         contentPanel.add(pickerPanel, gbc);
 
