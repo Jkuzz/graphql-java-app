@@ -6,6 +6,9 @@ import graphql.GraphQL;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * GUI application for displaying per-area demographics.
+ */
 public class App {
 
     private static void createAndShowGUI() {
@@ -35,8 +38,7 @@ public class App {
         gbc.weighty = 1;
 
         AreaPanel areaPanel = new AreaPanel(graphQL, new Color(40, 40, 150));
-        JPanel pickerPanel = areaPanel.makeAreaPanel();
-        contentPanel.add(pickerPanel, gbc);
+        contentPanel.add(areaPanel, gbc);
 
         gbc.gridx = GridBagConstraints.RELATIVE;
         gbc.insets = new Insets(15, 10, 15, 20);
@@ -48,6 +50,10 @@ public class App {
         return contentPanel;
     }
 
+    /**
+     * GUI App entrypoint
+     * @param args program arguments - unused
+     */
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(App::createAndShowGUI);
     }

@@ -12,15 +12,38 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Stream;
 
+/**
+ * <p>
+ * Manages the data structures of the endpoint and provides handy getters for the necessary structures.
+ * These methods allow comfortable implementations of DataFetchers.
+ * </p>
+ *
+ * <p>
+ * Requires the source .csv data files to be present in the resources folder
+ * </p>
+ */
 public class GraphQLDataStore {
+
+    /**
+     * Returns all kraje.
+     * @return kraje
+     */
     public List<Map<String, String>> getKraje() {
         return kraje;
     }
 
+    /**
+     * Returns all okresy.
+     * @return okresy
+     */
     public List<Map<String, String>> getOkresy() {
         return okresy;
     }
 
+    /**
+     * Returns all okresy
+     * @return okresy
+     */
     public List<Map<String, String>> getObce() {
         return obce;
     }
@@ -31,7 +54,7 @@ public class GraphQLDataStore {
     private Map<String, Map<String, Map<String, String>>> demographics;
 
     /**
-     * Initiates the data store by reading data files into memory and creating in-memory bindings
+     * Initiates the data store by reading .csv data files into memory and creating in-memory bindings.
      */
     public GraphQLDataStore() {
         kraje = renameCSV("CIS0100_CS.csv", ImmutableMap.of(
@@ -58,7 +81,7 @@ public class GraphQLDataStore {
     /**
      * Reads csv file from resources folder and keeps and renames the csv columns according to fieldsDict
      * Returns a list of maps, each csv line returning one map with keys according to the ones provided
-     * in fieldsDict and values according to original csv column
+     * in fieldsDict and values according to original csv column.
      * @param resourceName name of the csv file in the resources folder
      * @param fieldsDict map of original column name: new map key name
      * @return list of: map for each csv line
@@ -68,7 +91,6 @@ public class GraphQLDataStore {
         try {
             URL resource = Thread.currentThread().getContextClassLoader().getResource(resourceName);
             assert resource != null;
-            // csv = new CSVReader(new FileReader(resource.getPath(), Charset.forName("Cp1250")));
             csv = new CSVReader(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(resourceName), "cp1250"));
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,7 +118,7 @@ public class GraphQLDataStore {
     }
 
     /**
-     * Search a data source of csv rows as maps by id
+     * Search a data source of csv rows as maps by id.
      * @param id to get
      * @param targetData which data list to search
      * @return map of csv row with requested id, null if it doesn't exist
@@ -110,7 +132,7 @@ public class GraphQLDataStore {
     }
 
     /**
-     * Finds available demographic data for requested area code for all available years
+     * Finds available demographic data for requested area code for all available years.
      * @param codebook codebook identifier
      * @param cbCode entry code in codebook
      * @return Maps with demographic intro for available years
@@ -136,7 +158,7 @@ public class GraphQLDataStore {
 
     /**
      * Finds all demographic data resources, processes them into maps and
-     * adds them to the demographics map
+     * adds them to the demographics map.
      */
     private void createDemographics() {
         List<File> demFiles = getDemographicResources();
@@ -156,8 +178,8 @@ public class GraphQLDataStore {
     }
 
     /**
-     * Safely inserts demographic line into corresponding year in the correct area id
-     * If those maps are not yet initialised, initialises them
+     * Safely inserts demographic line into corresponding year in the correct area id.
+     * If those maps are not yet initialised, initialises them.
      * @param line csv demographic line as map
      */
     private void safeInsertDemLine(Map<String, String> line) {
@@ -168,7 +190,7 @@ public class GraphQLDataStore {
     }
 
     /**
-     * Aggregates area codebook and code to a single string id for mapping
+     * Aggregates area codebook and code to a single string id for mapping.
      * @param codebook codebook identifier
      * @param cbCode entry code in codebook
      * @return unique demographic area id
@@ -178,7 +200,7 @@ public class GraphQLDataStore {
     }
 
     /**
-     * Maps the original data columns to demographics schema fields
+     * Maps the original data columns to demographics schema fields.
      * @param vuk field from demographic csv data - "vuk" column
      * @return graphQL schema field name
      */
@@ -197,7 +219,7 @@ public class GraphQLDataStore {
     }
 
     /**
-     * Searches the resources' directory for files matching the demographic file naming convention
+     * Searches the resources' directory for files matching the demographic file naming convention.
      * @return List of available demographic files
      */
     private List<File> getDemographicResources() {
@@ -216,7 +238,7 @@ public class GraphQLDataStore {
     }
 
     /**
-     * Finds the resources' folder of the Main class. Uses CIS0043_CS.csv which must be present
+     * Finds the resources' folder of the Main class. Uses CIS0043_CS.csv which must be present.
      * @return resources folder
      */
     private File getResourcesPath() {

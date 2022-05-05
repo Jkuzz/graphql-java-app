@@ -8,17 +8,46 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Locale;
 
-public class AreaPanel {
-    JPanel pickerPanel = new JPanel(new GridBagLayout());
-    GridBagConstraints gbc = new GridBagConstraints();
+/**
+ * Main panel of the area selection and search functionality.
+ */
+public class AreaPanel extends JPanel {
+    /**
+     * Used by layout manager to layout child components.
+     */
+    private final GridBagConstraints gbc = new GridBagConstraints();
+    /**
+     * Listener for the Add Area button - handles adding new PopulationCards
+     */
     private AreaAddListener areaAddListener;
+    /**
+     * Filter used for filtering the currently-selected areas list pre-render.
+     */
     private String searchFilter = "";
+    /**
+     * JList displayed by the JScrollPane containing addable AreaListItems
+     */
     private JList<AreaListItem> areaList;
+    /**
+     * Holds members of the three types of areas. Contains all areas which are not currently
+     * being displayed as PopulationCards. Displaying in JList is done by filtering
+     * this list with search query.
+     */
     private final AreaListManager areaListManager;
+    /**
+     * Background Colour of the panel.
+     */
     private final Color bgColor;
+    /**
+     * Which area type list is currently being displayed. Used for getting the list from the AreaListManager.
+     * Toggled by area change buttons.
+     */
     private AreaType currentAreaType = AreaType.KRAJE;
 
 
+    /**
+     * @return JList component that displays available areas.
+     */
     public JList<AreaListItem> getAreaList() {
         return areaList;
     }
@@ -32,9 +61,17 @@ public class AreaPanel {
         return areaAddListener;
     }
 
+
+    /**
+     * Create the panel.
+     * @param graphQL database provider instance
+     * @param bgCol background colour of the panel
+     */
     public AreaPanel(GraphQL graphQL, Color bgCol) {
         areaListManager = new AreaListManager(graphQL);
         bgColor = bgCol;
+        this.setLayout(new GridBagLayout());
+        makeAreaPanel();
     }
 
 
@@ -43,9 +80,8 @@ public class AreaPanel {
      * and an option to add them to the display panel.
      *
      * !Must set AddAreaListener target panel before use!
-     * @return the panel
      */
-    public JPanel makeAreaPanel() {
+    private void makeAreaPanel() {
         gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.insets = new Insets(3, 20, 3, 20);
         gbc.fill = GridBagConstraints.BOTH;
@@ -53,23 +89,22 @@ public class AreaPanel {
         gbc.weighty = 0;
         gbc.gridx = 0;
         gbc.gridy = 0;
-        pickerPanel.add(makeAreaButtons(), gbc);
+        this.add(makeAreaButtons(), gbc);
 
         JTextField areaNameSearch = new JTextField();
         gbc.gridy = GridBagConstraints.RELATIVE;
-        pickerPanel.add(areaNameSearch, gbc);
+        this.add(areaNameSearch, gbc);
 
         gbc.weighty = 1;
-        pickerPanel.add(makeAreasScrollPane(), gbc);
+        this.add(makeAreasScrollPane(), gbc);
 
         areaNameSearch.getDocument().addDocumentListener(new SearchChangeListener(this));
 
         gbc.weighty = 0;
         gbc.insets.bottom = 10;
-        pickerPanel.add(makeAreaBottomButtons(), gbc);
+        this.add(makeAreaBottomButtons(), gbc);
 
-        pickerPanel.setBackground(bgColor);
-        return pickerPanel;
+        this.setBackground(bgColor);
     }
 
 
@@ -134,7 +169,7 @@ public class AreaPanel {
      * Iterates the currently selected area type's AreaListItems, sorts them alphabetically,
      * filters them according to searchFilter and updates the area list model to display them.
      */
-    public void updateListModel() {
+    void updateListModel() {
         ArrayList<AreaListItem> listToDisplay = areaListManager.getListByType(currentAreaType);
         listToDisplay.sort(Comparator.comparing(AreaListItem::name));
 
@@ -151,7 +186,7 @@ public class AreaPanel {
      * Change the search filter and update view
      * @param filter new filter
      */
-    public void setSearchFilter(String filter) {
+    void setSearchFilter(String filter) {
         this.searchFilter = filter;
         updateListModel();
     }
@@ -160,7 +195,7 @@ public class AreaPanel {
      * Remove list item from base items and update view
      * @param item to remove
      */
-    public void removeItem(AreaListItem item) {
+    void removeItem(AreaListItem item) {
         areaListManager.remove(item);
         updateListModel();
     }
@@ -169,7 +204,7 @@ public class AreaPanel {
      * Add list item to base items and update view
      * @param item to add
      */
-    public void addItem(AreaListItem item) {
+    void addItem(AreaListItem item) {
         areaListManager.add(item);
         updateListModel();
     }

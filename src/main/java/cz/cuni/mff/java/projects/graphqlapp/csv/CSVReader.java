@@ -4,19 +4,26 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.*;
 
+/**
+ * Parses input as csv and provides access methods to the parsed data.
+ */
 public class CSVReader {
     private final List<List<String>> lines = new ArrayList<>();
     private final Reader inputReader;
     private boolean lineEnded = false;
     private boolean streamEnded = false;
 
+    /**
+     * Returns header, provided the csv file had at least one legal line.
+     * @return header split into fields
+     */
     public List<String> getHeader() {
         assert lines.size() > 0;
         return lines.get(0);
     }
 
     /**
-     * Reads the input reader and parses legal lines in the csv file into list of Strings
+     * Reads the input reader and parses legal lines in the csv file into list of Strings.
      * @param inReader Reader containing the csv input
      * @throws IOException reader IO fails
      */
@@ -31,7 +38,7 @@ public class CSVReader {
     }
 
     /**
-     * Reads csv fields and if line length matches header length, returns the line
+     * Reads csv fields and if line length matches header length, returns the line.
      * @return next valid csv line as list
      * @throws IOException reader IO fails
      */
@@ -110,8 +117,8 @@ public class CSVReader {
     }
 
     /**
-     * Converts parsed csv file into a list of maps, one map for each csv line
-     * maps use csv header as keys and the column contents as values
+     * Converts parsed csv file into a list of maps, one map for each csv line.
+     * Maps use csv header as keys and the column contents as values.
      * @return List of lines converted to maps
      */
     public List<Map<String, String>> getLinesAsMaps() {

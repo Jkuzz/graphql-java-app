@@ -5,6 +5,9 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
+/**
+ * Listener for the AreaPanel search field that updates the AreaPanel AreaList search when the search field is modified.
+ */
 public record SearchChangeListener(
         AreaPanel areaPanel) implements DocumentListener {
 

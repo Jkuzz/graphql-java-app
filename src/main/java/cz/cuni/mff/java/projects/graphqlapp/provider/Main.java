@@ -4,10 +4,14 @@ import graphql.ExecutionResult;
 import graphql.GraphQL;
 
 /**
- * Mostly for development purposes. Executes the query and prints result.
+ * Mostly for development purposes.
  */
 public class Main {
 
+    /**
+     * Executes the query and prints result.
+     * @param args unused
+     */
     public static void main(String[] args) {
         GraphQL graphQL = new GraphQLProvider().getGraphQL();
         System.out.println(graphQL.getGraphQLSchema().getType("Kraj"));

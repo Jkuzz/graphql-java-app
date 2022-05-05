@@ -5,9 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Provides utility methods for preprocessing parsed source data.
+ */
 public class DataPreprocessor {
     /**
-     * Transforms input CSV lines maps according to the provided fields transformation map
+     * Transforms input CSV lines maps according to the provided fields transformation map.
      * @param originalCSVMap CSV lines as maps column_name:field
      * @param fieldsDict map of new_col_name:old_col_name
      * @return original line transformed according to fieldsDict
@@ -28,7 +31,7 @@ public class DataPreprocessor {
 
     /**
      * Transforms a linking dataset map with keys CHODNOTA2 and CHODNOTA1 into a map
-     * with key CHODNOTA2 and value CHODNOTA1. This is used when adding a link between two datasets
+     * with key CHODNOTA2 and value CHODNOTA1. This is used when adding a link between two datasets.
      * @param bindingMap linking dataset map with keys CHODNOTA2 and CHODNOTA1
      * @return map with key CHODNOTA2 and value CHODNOTA1
      */

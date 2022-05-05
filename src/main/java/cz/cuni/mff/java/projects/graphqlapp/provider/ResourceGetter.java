@@ -3,6 +3,9 @@ package cz.cuni.mff.java.projects.graphqlapp.provider;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Provides easy resource reading.
+ */
 public class ResourceGetter {
     /**
      * Reads file included in resources folder.

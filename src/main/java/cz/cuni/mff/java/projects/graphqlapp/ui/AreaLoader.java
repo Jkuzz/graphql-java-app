@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Reads areas from GraphQL database. Used in initialising AreaPanel area lists.
+ */
 public record AreaLoader(GraphQL graphQL) {
 
     /**

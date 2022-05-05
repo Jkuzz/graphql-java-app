@@ -12,28 +12,58 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * JPanel containing PopulationCards and field selection checkbox
+ */
 public class PopulationPanel extends JPanel {
-    final JPanel selectPanel;
+    /**
+     * Associated AreaPanel. Adds areas to this Panel. Upon Card removal, return them to the areaPanel.
+     */
     private final AreaPanel areaPanel;
+    /**
+     * GraphQL Database instance to query
+     */
     private final GraphQL graphQL;
+    /**
+     * Background colour of the panel
+     */
     private final Color BG_COLOR = new Color(100, 100, 200);
+    /**
+     * Background colours of PopulationCards by AreaType. Provided to Cards in constructor.
+     */
     private final Map<AreaType, Color> PopCardColors = ImmutableMap.of(
             AreaType.KRAJE, new Color(130, 130, 190),
             AreaType.OKRESY, new Color(150, 100, 200),
             AreaType.OBCE, new Color(200, 100, 200)
     );
+    /**
+     * Map of field name: true if checked
+     */
     private final HashMap<String, Boolean> selectedFields = new HashMap<>();
+    /**
+     * List of field checkboxes. Updates selectedFields, this is more annoying to get from.
+     */
     private final ArrayList<JCheckBox> fieldCheckBoxes = new ArrayList<>();
+    /**
+     * List of all currently displayed PopulationCards
+     */
     private final ArrayList<PopulationCard> populationCards = new ArrayList<>();
-    GridBagConstraints gbc = new GridBagConstraints();
+    /**
+     * Used by layout manager to layout child components.
+     */
+    private final GridBagConstraints gbc = new GridBagConstraints();
 
+    /**
+     * Constructs the PopulationPanel and makes it ready to accept new AreaCards.
+     * @param areaPanel associated AreaPanel which add areas
+     * @param graphQL database instance to query
+     */
     public PopulationPanel(AreaPanel areaPanel, GraphQL graphQL) {
         this.setLayout(new GridBagLayout());
         this.areaPanel = areaPanel;
         this.graphQL = graphQL;
-        this.selectPanel = makeSelectPanel();
-
         this.setBorder(BorderFactory.createEmptyBorder(20, 15, 20, 15));
+
         gbc.insets = new Insets(0, 5, 0, 5);
         gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -42,7 +72,7 @@ public class PopulationPanel extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
-        this.add(selectPanel, gbc);
+        this.add(makeSelectPanel(), gbc);
 
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(20, 5, 0, 5);

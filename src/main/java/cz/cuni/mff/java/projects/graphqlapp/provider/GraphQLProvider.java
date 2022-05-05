@@ -7,7 +7,8 @@ import graphql.schema.idl.*;
 import static graphql.schema.idl.TypeRuntimeWiring.newTypeWiring;
 
 /**
- *
+ * The provider holds an instance of the GraphQL object, which has loaded the necessary data and
+ * is ready to execute queries.
  */
 public class GraphQLProvider {
     private final GraphQL graphQL;
@@ -15,11 +16,15 @@ public class GraphQLProvider {
 
     /**
      * This provides the GraphQL object to be queried
+     * @return new GraphQL instance
      */
     public GraphQL getGraphQL() {
         return graphQL;
     }
 
+    /**
+     * Creates an instance of data fetchers, reads the schema from resources and builds the wiring.
+     */
     public GraphQLProvider() {
         this.graphQLDataFetchers = new GraphQLDataFetchers();
         GraphQLSchema schema = buildSchema(ResourceGetter.getResourceAsString("schema.graphqls"));

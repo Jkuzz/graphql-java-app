@@ -3,12 +3,15 @@ package cz.cuni.mff.java.projects.graphqlapp.ui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Listener for the AreaPanel which adds the currently-selected areas as new PopulationCards to the PopulationPanel.
+ */
 public final class AreaAddListener implements ActionListener {
     private PopulationPanel populationPanel = null;
     private final AreaPanel areaPanel;
 
     /**
-     * Create a listener that adds the areas selected form the list to the population panel
+     * Create a listener that adds the areas selected form the list to the population panel.
      * @param areaPanel AreaPanel to remove from
      */
     public AreaAddListener(AreaPanel areaPanel) {
@@ -19,7 +22,7 @@ public final class AreaAddListener implements ActionListener {
      * Add area button callback function
      *
      * Instructs display panel to add the selected areas to the display
-     * and removes them from the selection list
+     * and removes them from the selection list.
      * @param actionEvent swing action event
      */
     @Override

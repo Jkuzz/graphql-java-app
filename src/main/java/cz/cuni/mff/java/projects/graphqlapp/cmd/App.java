@@ -12,8 +12,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Scanner;
 
-
+/**
+ * Command line wrapper for the GraphQL instance.
+ */
 public class App {
+
+    /**
+     * Command-line app entrypoint
+     * @param args program arguments
+     */
     public static void main(String[] args) {
         GraphQL graphQL = new GraphQLProvider().getGraphQL();
         CommandLine cmd = parseOptions(args);

@@ -9,13 +9,31 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * JPanel that displays population information about a given area.
+ */
 public class PopulationCard extends JPanel {
 
+    /**
+     * AreaListItem from which this Card was created. Return this to AreaPanel upon destruction.
+     */
     private final AreaListItem source;
+    /**
+     * GraphQL Database instance to query
+     */
     private final GraphQL graphQL;
+    /**
+     * Background colour of the card.
+     */
     private final Color bgColor;
-
+    /**
+     * JScrollPane containing the demographic info. Necessary in case there are multiple years and fields,
+     * so that the card does not extend out of scope of the window. Displays the yearDemsPanel.
+     */
     private final JScrollPane demsScrollPane;
+    /**
+     * The JPanel which is being displayed by the demsScrollPane. When updating dems, add them here.
+     */
     private JPanel yearDemsPanel;
 
     /**
