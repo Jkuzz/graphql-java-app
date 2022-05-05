@@ -1,6 +1,6 @@
 /**
  * <p>
- * The core functionality part of the application. Within this package is the data loading,
+ * The core database functionality part of the application. Within this package is the data loading,
  * preprocessing and subsequent wiring with GraphQL Data fetchers to create a working GraphQL endpoint.
  * </p>
  *
