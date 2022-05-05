@@ -99,7 +99,7 @@
                             <goal>java</goal>
                         </goals>
                         <configuration>
-                            <mainClass>cz.cuni.mff.java.projects.graphqlapp.Main</mainClass>
+                            <mainClass>cz.cuni.mff.java.projects.graphqlapp.provider.Main</mainClass>
                         </configuration>
                     </execution>
                 </executions>

@@ -6,6 +6,9 @@ import graphql.schema.idl.*;
 
 import static graphql.schema.idl.TypeRuntimeWiring.newTypeWiring;
 
+/**
+ *
+ */
 public class GraphQLProvider {
     private final GraphQL graphQL;
     private final GraphQLDataFetchers graphQLDataFetchers;

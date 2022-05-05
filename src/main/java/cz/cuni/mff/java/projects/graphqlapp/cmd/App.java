@@ -146,7 +146,7 @@ public class App {
     private static String getUserQuery(Scanner input) {
         StringBuilder userQuery = new StringBuilder();
         while(input.hasNext()) {
-            userQuery.append(input.next().trim()).append(' ');
+            userQuery.append(input.next().trim()).append(' '); // Tokens separated only by space
         }
         input.close();
         return userQuery.toString().trim();
