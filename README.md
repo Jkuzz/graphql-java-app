@@ -1,4 +1,4 @@
-# graphql-java-app
+# graphql-java-population
 
 This repository contains my credit project for [Java Programming](https://d3s.mff.cuni.cz/teaching/nprg013/). 
 This app serves a GraphQL provider that aggregates regional population data from the Czech Statistical Office,
@@ -53,4 +53,7 @@ and [regions](https://data.gov.cz/datov%C3%A1-sada?iri=https%3A%2F%2Fdata.gov.cz
 and [district-region](https://data.gov.cz/datov%C3%A1-sada?iri=https%3A%2F%2Fdata.gov.cz%2Fzdroj%2Fdatov%C3%A9-sady%2F00025593%2Fc92832d196d01f0f06f39ec6f1661e5f)
   - [Yearly population data](https://data.gov.cz/datov%C3%A9-sady?kl%C3%AD%C4%8Dov%C3%A1-slova=pohyb%20obyvatel)
  
-To add new years of data to the endpoint, simply place the new dataset in the `/src/main/resources/` folder.
+To add new years of data to the endpoint, simply place the new dataset in the `src/main/resources/` folder.
+
+## Javadoc
+Contains complete Javadoc documentaion. Generate using `mvn javadoc:javadoc` and access in the `target/site/apidocs/` folder.
