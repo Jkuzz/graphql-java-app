@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Locale;
 
 public class AreaPanel {
     JPanel pickerPanel = new JPanel(new GridBagLayout());
@@ -139,7 +140,7 @@ public class AreaPanel {
 
         DefaultListModel<AreaListItem> processedModel = new DefaultListModel<>();
         for(AreaListItem item: listToDisplay) {
-            if(item.name().contains(searchFilter)) {
+            if(item.name().toLowerCase(Locale.ROOT).contains(searchFilter.toLowerCase(Locale.ROOT))) {
                 processedModel.addElement(item);
             }
         }

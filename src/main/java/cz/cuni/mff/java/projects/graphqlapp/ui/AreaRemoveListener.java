@@ -17,7 +17,6 @@ public record AreaRemoveListener(
         PopulationCard areaInfo = (PopulationCard) sourceButton.getParent();
         PopulationPanel parentPanel = (PopulationPanel) areaInfo.getParent();
         parentPanel.removeArea(areaInfo);
-        parentPanel.getParent().revalidate();
 
         areaPanel.addItem(areaInfo.getSource());
     }

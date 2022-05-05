@@ -136,6 +136,7 @@ public class PopulationPanel extends JPanel {
         this.remove(populationCard);
         populationCard.remove(populationCard);
         this.revalidate();
+        this.getParent().repaint();
     }
 
     /**
