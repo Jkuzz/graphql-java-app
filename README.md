@@ -1,7 +1,7 @@
 # graphql-java-app
 
 This repository contains my credit project for [Java Programming](https://d3s.mff.cuni.cz/teaching/nprg013/). 
-This app provides a GraphQL provider that aggregates regional population change data from the Czech Statistical Office,
+This app serves a GraphQL provider that aggregates regional population data from the Czech Statistical Office,
 which are available [here](https://data.gov.cz/datov%C3%A9-sady?kl%C3%AD%C4%8Dov%C3%A1-slova=pohyb%20obyvatel).
 The app relies on [GraphQL Java](https://www.graphql-java.com/) to serve the endpoint.
 
@@ -25,7 +25,7 @@ mvn exec:java@gui
 
 ## CMD Use
 Running the command line app will read the data from the disc and read a query from the standard input.
-It will then execute the query on the GraphQL endpoint and print the result. For more advanced use, use options.
+It will then execute the query against the GraphQL endpoint and print the result. For more advanced use, use options.
 
 `-f filename` will read the file provided and execute it as a query. You can use multiple `-f` options and all files will be executed in succession.
 
@@ -33,12 +33,12 @@ It will then execute the query on the GraphQL endpoint and print the result. For
 see [pipe-query.sh](./pipe-query.sh).
 
 `-c` will run continuously, allowing you to enter multiple queries successively and get query results after each one. When paired with `-f`, will 
-continuously read from pipe. Otherwise, will read from stdin.
+continuously read from the pipe. Otherwise, will read from stdin.
 
 ## GUI Use
 The GUI access to the GraphQL store provides a more user-friendly access to a subset of the information available in the endpoint.
-The left part allows the user to select the available areas and add them to the view on the right. The top right checkbox configures
-which population fields area queried for using GraphQL and shown in the view.
+The left part allows you to select from the available areas and add them to the view on the right. The top right checkbox configures
+which population fields area queried for using GraphQL and shown in the view. The right view then shows population data for the selected areas.
 
 Displays demographics from all years that are availible in `src/main/resources/`, to display more, place the coresponding data there.
 
